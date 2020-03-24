@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Conda-forge (NunFOCUS)
-permalink: /goals/
 ---
 
 My goal creating this page is to:
