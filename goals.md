@@ -1,6 +1,7 @@
 ---
+layout: page
 title: Goals
-layout: home
+permalink: /goals/
 ---
 
 # Conda-forge (NunFOCUS)
