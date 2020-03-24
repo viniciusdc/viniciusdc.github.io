@@ -1,7 +1,4 @@
----
-layout: page
-title: Conda-forge (NunFOCUS)
----
+# Conda-forge (NunFOCUS)
 
 My goal creating this page is to:
 1. Have different point of views of the structure of conda-forge;
