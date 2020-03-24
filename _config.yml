@@ -29,7 +29,8 @@ github_username:  viniciusdc
 # Build settings
 theme: minima
 minima:
-  skin: solarized-dark
+  skin: solarized
+  
 show_excerpts: False
 plugins:
   - jekyll-feed
