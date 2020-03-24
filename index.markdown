@@ -2,10 +2,9 @@
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
+title: Conda-forge (NunFOCUS)
 layout: home
 ---
-
-# Conda-forge (NunFOCUS)
 
 My goal creating this page is to:
 1. Have different point of views of the structure of conda-forge;
