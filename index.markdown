@@ -13,11 +13,11 @@ My goal creating this page is to:
 4. Share my current development into the issues and processes i am engaged;
 5. Get more experience with the community to help even more.
 
-My main questions will be stored in the issues section of this page, until i discover how to put a blog-answer style here.
+My main questions will be stored in the issues section of this page, until I discover how to put a blog-answer style here.
 Also, there will be my current state in the problem i am involved.
 
-Current issue (engaged): [#842][i842]
+Current issue (engaged): [#842][i842] -- Actualy learning Dyanamodb key concepts;
 
-If there is something you would like to comment or help me with, i will gratefully accept (you can comment here - issues) or send me a message on Gitter.
+If there is something you would like to comment or help me with, I will gratefully accept (you can comment here - issues) or send me a message on Gitter.
 
 [i842]: https://github.com/regro/cf-scripts/issues/842
