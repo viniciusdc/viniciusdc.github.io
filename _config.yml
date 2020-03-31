@@ -21,14 +21,17 @@
 title: Google Summer of Code 2020
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
- Google Summer of Code 2020.
+ A simple blog for questions and possible errors.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+github_username:  viniciusdc
 
 # Build settings
 theme: minima
+minima:
+  skin: solarized
+  
+show_excerpts: False
 plugins:
   - jekyll-feed
 
