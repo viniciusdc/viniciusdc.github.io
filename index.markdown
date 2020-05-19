@@ -16,8 +16,8 @@ My goal creating this page is to:
 My main questions will be stored in the issues section of this page, until I discover how to put a blog-answer style here.
 Also, there will be my current state in the problem i am involved.
 
-Current issue (engaged): [#842][i842] -- Actualy learning Dynamodb key concepts;
+Current issue (engaged) `cf-graph-countyfair`: [#21][p21] -- Next meeting and waiting PR feedback;
 
 If there is something you would like to comment or help me with, I will gratefully accept (you can comment here - issues) or send me a message on Gitter.
 
-[i842]: https://github.com/regro/cf-scripts/issues/842
+[p21]: https://github.com/regro/cf-graph-countyfair/pull/21
