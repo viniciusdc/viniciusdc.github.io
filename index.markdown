@@ -17,8 +17,11 @@ My main questions will be stored in the issues section of this page, until I dis
 Also, there will be my current state in the problem i am involved.
 
 Current issue: `cf-graph-countyfair`/`cf-scripts`: [#842][i842];
+
 Engaged on PR: [#907][p907];
+
 Last code: [#code][code];
+
 Separeted repo for tests -- `ts-graph` -- Last test status [status].
 
 If there is something you would like to comment or help me with, I will gratefully accept (you can comment here - issues) or send me a message on Gitter.
