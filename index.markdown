@@ -26,7 +26,7 @@ Separeted repo for tests -- `ts-graph` -- Last test status from Circle CI [statu
 
 If there is something you would like to comment or help me with, I will gratefully accept (you can comment here - issues) or send me a message on Gitter.
 
-[p21]: https://github.com/regro/cf-scripts/issues/842
+[i842]: https://github.com/regro/cf-scripts/issues/842
 [p907]: https://github.com/regro/cf-scripts/pull/907
 [code]: https://github.com/viniciusdc/ts-graph/blob/master/conda_forge_tick/migrate_update_version.py
 [status]: https://app.circleci.com/pipelines/github/viniciusdc/ts-graph/46/workflows/cf6da52d-df5d-485d-9aaf-6c142ce10962/jobs/51/steps
