@@ -16,8 +16,14 @@ My goal creating this page is to:
 My main questions will be stored in the issues section of this page, until I discover how to put a blog-answer style here.
 Also, there will be my current state in the problem i am involved.
 
-Current issue (engaged) `cf-graph-countyfair`: [#21][p21] -- Next meeting and waiting PR feedback;
+Current issue: `cf-graph-countyfair`/`cf-scripts`: [#842][i842];
+Engaged on PR: [#907][p907];
+Last code: [#code][code];
+Separeted repo for tests -- `ts-graph` -- Last test status [status].
 
 If there is something you would like to comment or help me with, I will gratefully accept (you can comment here - issues) or send me a message on Gitter.
 
-[p21]: https://github.com/regro/cf-graph-countyfair/pull/21
+[p21]: https://github.com/regro/cf-scripts/issues/842
+[p907]: https://github.com/regro/cf-scripts/pull/907
+[code]: https://github.com/viniciusdc/ts-graph/blob/master/conda_forge_tick/migrate_update_version.py
+[status]: https://app.circleci.com/pipelines/github/viniciusdc/ts-graph/46/workflows/cf6da52d-df5d-485d-9aaf-6c142ce10962/jobs/51/steps
