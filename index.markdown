@@ -22,7 +22,7 @@ Engaged on PR: [#907][p907];
 
 Last code: [#code][code];
 
-Separeted repo for tests -- `ts-graph` -- Last test status [status].
+Separeted repo for tests -- `ts-graph` -- Last test status from Circle CI [status].
 
 If there is something you would like to comment or help me with, I will gratefully accept (you can comment here - issues) or send me a message on Gitter.
 
