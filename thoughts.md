@@ -83,3 +83,28 @@ def main(args: Any = None) -> None:
     logger.info("writing out file")
     dump_graph(gx)
 ```
+and 
+```python
+with gx.nodes['python']['payload'] as attrs:
+    for item in attrs:
+        print(item)
+PRed
+bad
+conda-forge.yml
+feedstock_name
+hash_type
+meta_yaml
+name
+new_version
+new_version_attempts
+new_version_errors
+pinning_version
+raw_meta_yaml
+req
+requirements
+smithy_version
+strong_exports
+total_requirements
+url
+version
+```
