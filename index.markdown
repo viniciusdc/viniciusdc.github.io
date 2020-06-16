@@ -18,11 +18,11 @@ Also, there will be my current state in the problem i am involved.
 
 Current issue: `cf-graph-countyfair`/`cf-scripts`: [#842][i842];
 
-Engaged on PR's: [#1027][p907], [#61][p61];
+Engaged on PR's: [#1027][p1027], [#61][p61];
 
-The [#1027] PR corresponds to the `new_update_upstream_versions` code as it separates the feedstocks sources into a new script called `update_sources.py` (There is also an modification at the `cli.xsh` file). 
+The [#1027][p1027] PR corresponds to the `new_update_upstream_versions` code as it separates the feedstocks sources into a new script called `update_sources.py` (There is also an modification at the `cli.xsh` file). 
 
-The [#61] PR corresponds to an alteration at the `circle_worker` config (a new job header for the update versions code). It aims to save the versions outputs to an new file inside `cf-graph-countyfair` with the correspondents JSON files.
+The [#61][p61] PR corresponds to an alteration at the `circle_worker` config (a new job header for the update versions code). It aims to save the versions outputs to an new file inside `cf-graph-countyfair` with the correspondents JSON files.
 
 Last code: [#code][code];
 
