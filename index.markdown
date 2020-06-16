@@ -18,7 +18,11 @@ Also, there will be my current state in the problem i am involved.
 
 Current issue: `cf-graph-countyfair`/`cf-scripts`: [#842][i842];
 
-Engaged on PR: [#907][p907];
+Engaged on PR's: [#1027][p907], [#61][p61];
+
+The [#1027] PR corresponds to the `new_update_upstream_versions` code as it separates the feedstocks sources into a new script called `update_sources.py` (There is also an modification at the `cli.xsh` file). 
+
+The [#61] PR corresponds to an alteration at the `circle_worker` config (a new job header for the update versions code). It aims to save the versions outputs to an new file inside `cf-graph-countyfair` with the correspondents JSON files.
 
 Last code: [#code][code];
 
@@ -27,6 +31,7 @@ Separeted repo for tests -- `ts-graph` -- Last test status from Circle CI [statu
 If there is something you would like to comment or help me with, I will gratefully accept (you can comment here - issues) or send me a message on Gitter.
 
 [i842]: https://github.com/regro/cf-scripts/issues/842
-[p907]: https://github.com/regro/cf-scripts/pull/907
-[code]: https://github.com/viniciusdc/ts-graph/blob/master/conda_forge_tick/migrate_update_version.py
+[p1027]: https://github.com/regro/cf-scripts/pull/1027
+[p61]: https://github.com/regro/circle_worker/pull/61
+[code]: https://github.com/regro/circle_worker/pull/61/commits/017344494e9e01c75efe312a6ba8323b37ff9fd3
 [status]: https://app.circleci.com/pipelines/github/viniciusdc/ts-graph/46/workflows/cf6da52d-df5d-485d-9aaf-6c142ce10962/jobs/51/steps
