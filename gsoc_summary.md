@@ -8,8 +8,8 @@
 ### How, it works ?
 
 ### The proposed updates
-
-    ### Optional
+  
+  * ### Optional
 
 ### The new code workflow
 
