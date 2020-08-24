@@ -2,6 +2,8 @@
 
 ## Summary of GSoC project with conda-forge (NumFocus)
 
+### Introduction
+  Throughout this Google Summer of code project, ….
 
 ### What is conda-forge
 
