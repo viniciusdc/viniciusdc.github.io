@@ -13,11 +13,15 @@
   Currently when a package passes by the auto tick bot, it’s information is processed and updated by calling some specific routines, one of these is the version update process. Its main goal is the requisition of every new version for the packages we currently have, getting this information using the sources that are provided for each package in our feedstock, and then load this information at the respective node inside our graph data structure, which then enable the various others services of the bot to update the package, refactor or initane a specific routine, for example a Migrator process.
 	Originally, the environment for this process was defined inside one of the main services of the bot, not only that, but the updates also occurred inside the current computation of the graph. 
 
- %%% Here comes an image
+<p align="center">
+  <img src="https://github.com/viniciusdc/viniciusdc.github.io/blob/viniciusdc-patch-3/img/old_eco.png" />
+</p>
  
 So, the fundamental idea for this project  is to move the data structures used to update the packages to another repo with a separate process, not interfering directly with the graph and the others bot microservices, for instance the Migrations. We should than have a new environment for this process, in a much cleaner way
 
- %%% Here comes an image
+<p align="center">
+  <img src="https://github.com/viniciusdc/viniciusdc.github.io/blob/viniciusdc-patch-3/img/new_eco.png" />
+</p>
 
 As we can see, the idea is quite valuable and simplistic, even though not only there is a bigger change into the update versions code, as now should not bump any information inside the graph structure while loading the versions but also, as we actually are performing these evaluation outside the main process asynchronously, we now need another microprocesses to get this data and insert back to the graph to perform the other process.
 
