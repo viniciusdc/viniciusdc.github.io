@@ -36,6 +36,23 @@ As we can see, the idea is quite valuable and simplistic, even though not only t
   	- As another improvement for the bot usage, a profiler decorator (with context manager) was implemented. [extra](https://github.com/regro/cf-scripts/pull/1131#pullrequestreview-474906393)
 
 ### The new code workflow
+   Before starting with the modification an improved explanation about the update versions process shall be given. 
+   First we load the graph (which is the fundamental structure for accommodating information about the feedstocks), once loaded, we search for every fedstock the information regarding its versions at their sources (which can be PyPi, ROS, NPM and so on). An special function called `get_latest_version` is responsible for the requisition of the new versions from the sources, as another function called `update_upstream_version` updates the information at the graph with the requested ones, this process comprehends the 'update version process', wich in this case is attached to the graph main structure.
+
+<p align="center">
+  <img src="https://github.com/viniciusdc/viniciusdc.github.io/blob/viniciusdc-patch-2/img/update_version_process.png" />
+</p>
+
+Below I will list the main features implemented along with links to the code, more details can be found below about each of these features such as usage, examples and technical details about the implementation. 
+The main issue for the project and the general discussion can be inspected here [2](https://github.com/regro/cf-scripts/issues/842).
+
+   - To begin with, I had to read the graph (it is load the graph to inspect the attribute of each feedstock), then get the new versions and of course bump it to somewhere else to not interfere with the graph structure [3](https://github.com/viniciusdc/viniciusdc.github.io/issues/1);
+   - After this brief prelude of the code, I reached a more versatile code and approach that adapted the current code for the function that collects and requests the new versions (get_latest_version) and update the graph with those (update_upstream_versions), the main modification here also included a separation between the code that updates the versions (it is the actual computation) from the sources classes of the feedstocks. [4](https://github.com/regro/cf-scripts/pull/1027);
+   - Now we have a new script called `populate_update_versions` that collects the new versions and works without disrupting the graph directly. We can start running the new process and check the information been sended to the `versions` folder at `regro/cf-graph-countyfair` [repository](https://github.com/regro/cf-graph-countyfair/), the process will then be running inside a continuous integration system (Circle CI) [5](https://github.com/regro/circle_worker/pull/61);
+   - Due to the expensive time consuming usage of the actual and as every request of the sources new versions could be evaluated asynchronously inside the process I’ve added a pool feature to the update version code to increase the efficiency of the process [6](https://github.com/regro/cf-scripts/pull/1049);
+   - Once the new versions folder was ready with the feedstocks versions data, the next thing to do was work at the code that gathered that information and inserted back to the graph, we've opted to create the feature, called `update_nodes_with_new_versions` inside the current `make_graoh` function as it main role was already build and upgrade the graph structure with data. [7](https://github.com/regro/cf-scripts/pull/1050);
+   - As a matter of fact, we could also insert new utilities insethe the update_upstream_versions code to solve some issues [7](https://github.com/regro/cf-scripts/pull/1073);
+   - Finally we could proceed and switch the old update upstream version code with the new one, and set the new process to work altogether with the main bot processes.[8](https://github.com/regro/cf-scripts/pull/1075), as also CJ helped me solving some bugs and other issues with the code [9](https://github.com/regro/cf-scripts/pull/1099).
 
 
 ### Future work
