@@ -27,12 +27,16 @@ As we can see, the idea is quite valuable and simplistic, even though not only t
 
 
 ### The proposed updates
-  
-  * ### Optional
+  - Separate/upgrade the code that search for version updates  from the graph structure;
+  - Create new a process on Circle CI to manage the new versions and bump then at a new folder/repository at GitHub;
+  - Adapt the ‘make graph’ process to load the versions information from the new location and insert then at the graph;
+  - Adapt the tests codes for the new scripts and functions;
+  - Optimize minor parts of the new update versions code.
+  * ## Optional
+  	- As another improvement for the bot usage, a profiler decorator (with context manager) was implemented. [extra](https://github.com/regro/cf-scripts/pull/1131#pullrequestreview-474906393)
 
 ### The new code workflow
 
-### Conclusion
 
 ### Future work
 
