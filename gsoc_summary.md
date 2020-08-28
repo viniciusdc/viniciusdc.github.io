@@ -57,4 +57,12 @@ The main issue for the project and the general discussion can be inspected here 
 
 ### Future work
 
+During this Google Summer of Code project I have absolutely loved my time working with conda-forge. The community has been incredibly supportive and it is so rewarding to see these new features and improvements being running inside such big structures like conda-forge and the auto-tick bot. This provides great motivation to further develop new ideas for the community and also improve my background to handle even more interesting and challenging issues in the future .
+
+Some identifiable improvements would be
+
+   - Prepare a solid explanation for the functionality of the bot process and strucutras, like its correspondence with the Migrators and subordinate process like the PRs  managers;
+   - Continue looking for improvements for the main bot process, as switching for better tools or mechanisms;
+   - As also an enormous motivation to improve the automation characteristic of the bot, and enhance its process to facilitate the life for th mainteinres and the bot team in the future.
+
 ### Acknowledgements
