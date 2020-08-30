@@ -1,4 +1,7 @@
-# GSOC 2020 Work product submission.
+---
+title: GSOC 2020 Work product submission
+layout: home
+---
 
 ## Summary of GSoC project with conda-forge (NumFOCUS)
 
