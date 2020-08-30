@@ -1,5 +1,5 @@
 ---
-title: GSOC 2020 Work product submission
+title: Work product submission
 layout: home
 ---
 
