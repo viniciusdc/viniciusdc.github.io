@@ -37,8 +37,7 @@ As we can see, the idea is quite valuable and simplistic, even though not only t
   - Adapt the ‘make graph’ process to load the versions information from the new location and insert then at the graph;
   - Adapt the tests codes for the new scripts and functions;
   - Optimize minor parts of the new update versions code.
-  * ## Optional
-   - As another improvement for the bot usage, a profiler decorator (with context manager) was implemented. [extra](https://github.com/regro/cf-scripts/pull/1131#pullrequestreview-474906393)
+  - (Optional) As another improvement for the bot usage, a profiler decorator (with context manager) was implemented. [extra](https://github.com/regro/cf-scripts/pull/1131#pullrequestreview-474906393)
 
 ### The new code workflow
    Before starting with the modification an improved explanation about the update versions process shall be given. 
