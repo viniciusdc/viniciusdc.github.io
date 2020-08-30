@@ -19,15 +19,11 @@ The conda-forge autotick bot is now a central part of the conda-forge ecosystem.
 	
   Originally, the environment for this process was defined inside one of the main services of the bot, not only that, but the updates also occurred inside the current computation of the graph. 
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/viniciusdc/viniciusdc.github.io/master/img/old_eco.png" />
-</p>
+![GitHub old eco](/img/old_eco.png)
  
 So, the fundamental idea for this project  is to move the data structures used to update the packages to another repo with a separate process, not interfering directly with the graph and the others bot microservices, for instance the Migrations. We should than have a new environment for this process, in a much cleaner way
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/viniciusdc/viniciusdc.github.io/master/img/new_eco.png" />
-</p>
+![GitHub new eco](/img/new_eco.png)
 
 As we can see, the idea is quite valuable and simplistic, even though not only there is a bigger change into the update versions code, as now should not bump any information inside the graph structure while loading the versions but also, as we actually are performing these evaluation outside the main process asynchronously, we now need another microprocesses to get this data and insert back to the graph to perform the other process.
 
@@ -46,9 +42,7 @@ As we can see, the idea is quite valuable and simplistic, even though not only t
    
    First we load the graph (which is the fundamental structure for accommodating information about the feedstocks), once loaded, we search for every feedstock the information regarding its versions at their sources (which can be PyPI, CRAN, NPM and so on). Then a special function called `get_latest_version` is responsible for the requisition of the new versions from the sources and `update_upstream_version` updates the information at the graph with the requested ones, this process comprehends the 'update version process', witch in this case is attached to the graph main structure.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/viniciusdc/viniciusdc.github.io/master/img/update_version_process.png" />
-</p>
+![GitHub update](/img/update_version_process.png)
 
 I will list the main features implemented along with links to the respective PR's where more details can be found about each of these features. In the end, there is a list with links pointing to the final scripts and codes modified during the project. 
 The main issue for the project and the general discussion can be inspected here [issue 842](https://github.com/regro/cf-scripts/issues/842). The affected repositories can be found  respectively here [cf-scripts](https://github.com/regro/cf-scripts), [cf-graph-countyfair](https://github.com/regro/cf-graph-countyfair) and [circle_worker](https://github.com/regro/circle_worker). 
