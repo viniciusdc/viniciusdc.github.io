@@ -1,4 +1,8 @@
-# Work product submission
+---
+layout: page
+title: Work product submission
+permalink: /Work product/
+---
 
 ## Summary of GSoC project with conda-forge (NumFOCUS)
 
