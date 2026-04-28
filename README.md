@@ -1,43 +1,74 @@
-# Astro Starter Kit: Minimal
+<div align="center">
+
+<img src=".github/banner.svg" alt="vinicius.dev — platform engineering field notes" width="100%"/>
+
+---
+
+[![site](https://img.shields.io/badge/viniciusdc.github.io-live-5eead4?style=flat-square)](https://viniciusdc.github.io) [![deploy](https://img.shields.io/github/actions/workflow/status/viniciusdc/viniciusdc.github.io/deploy.yml?branch=gh-pages&style=flat-square&label=deploy)](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/deploy.yml)
+![Astro](https://img.shields.io/badge/Astro_6-BC52EE?style=flat-square&logo=astro&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) ![MDX](https://img.shields.io/badge/MDX-F9AC00?style=flat-square&logo=mdx&logoColor=black)
+
+</div>
+
+---
+
+## Commands
 
 ```sh
-npm create astro@latest -- --template minimal
+make install      # npm install
+make dev          # dev server → http://localhost:4321
+make build        # production build → dist/
+make preview      # serve dist/ locally
+make check        # type-check + spell-check
+make banner       # regenerate .github/banner.svg
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project structure
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+├── layouts/           # Layout.astro, ArticleLayout.astro
+├── pages/
+│   ├── index.astro    # homepage
+│   ├── notes/         # field notes       ← gitignored, committed via content PRs
+│   ├── architecture/  # design essays     ← gitignored, committed via content PRs
+│   ├── projects/      # project writeups
+│   ├── debug/         # debugging reference
+│   └── about/
+├── components/ui/     # Badge.astro and other primitives
+├── styles/global.css
+└── templates/         # note.mdx and architecture.mdx starters
+public/                # favicon and static assets
+scripts/               # gen-banner.mjs, new-post.sh
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Writing a post
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Scaffold a new post with `make post` — the slug is derived from the title automatically:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```sh
+make post TITLE="k3s coredns loop"                          # field note (default)
+make post TITLE="k3s coredns loop" TAG="debugging"          # custom tag
+make post TITLE="operator ownership boundaries" TYPE=arch   # architecture essay
+```
 
-## 🧞 Commands
+Posts are `.mdx` files. Each exports a `metadata` object that the homepage and index pages discover at build time — no manual registration needed:
 
-All commands are run from the root of the project, from a terminal:
+```ts
+export const metadata = {
+  title: "Short, specific title",
+  date: "YYYY-MM-DD",
+  tag: "field note",   // field note · debugging · security · architecture · platform
+  description: "One sentence describing what this explains.",
+};
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## CI / CD
 
-## 👀 Want to learn more?
+| Job | Trigger | |
+|---|---|---|
+| Build | PR | Compiles the site and uploads `dist/` as an artifact |
+| Spell check | PR | cspell over all `.astro` and `.mdx` source files |
+| Lighthouse | PR | Accessibility, SEO, best-practices ≥ 100 · performance ≥ 90 |
+| Deploy | Push to `gh-pages` | Builds and publishes to GitHub Pages |
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Actions are pinned to commit SHAs. Dependabot opens weekly PRs to keep action SHAs and npm deps current.
