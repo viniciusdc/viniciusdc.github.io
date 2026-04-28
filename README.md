@@ -1,43 +1,64 @@
-# Astro Starter Kit: Minimal
+# viniciusdc.github.io
+
+Personal site — platform engineering field notes, architecture essays, and project writeups.
+
+**[viniciusdc.github.io](https://viniciusdc.github.io)**
+
+---
+
+## Stack
+
+- [Astro 6](https://astro.build) — static site generator
+- [Tailwind CSS v4](https://tailwindcss.com) — utility-first CSS
+- [MDX](https://mdxjs.com) — markdown with component support
+- Deployed to GitHub Pages via GitHub Actions
+
+## Local development
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev        # http://localhost:4321
+npm run build      # production build to dist/
+npm run preview    # serve the dist/ build locally
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Content
 
-## 🚀 Project Structure
+Content lives under `src/pages/` and is gitignored by default — posts are committed via separate PRs.
 
-Inside of your Astro project, you'll see the following folders and files:
+| Section | Path | Format |
+|---|---|---|
+| Field notes | `src/pages/notes/<slug>/index.astro` | Short technical writeups |
+| Architecture | `src/pages/architecture/<slug>/index.astro` | Long-form design essays |
+| Projects | `src/pages/projects/<slug>/index.astro` | Project writeups |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+### Adding a new post
+
+Copy the relevant template from `src/templates/` and fill in the `metadata` export — this drives the index pages and homepage:
+
+```ts
+export const metadata = {
+  title: "Short, specific title",
+  date: "YYYY-MM-DD",
+  tag: "field note",
+  description: "One sentence description.",
+};
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Scripts to scaffold a new post:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```sh
+scripts/new-note.sh <slug>
+scripts/new-architecture.sh <slug>
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## CI
 
-## 🧞 Commands
+| Job | Trigger | Purpose |
+|---|---|---|
+| Build | PR | Verify the site compiles |
+| Spell check | PR | cspell across all `.astro` and `.mdx` files |
+| Lighthouse audit | PR | Accessibility, SEO, best-practices, performance |
+| Deploy | Push to `gh-pages` | Build and publish to GitHub Pages |
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Dependabot runs weekly to keep npm deps and action SHAs current.
