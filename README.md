@@ -1,64 +1,79 @@
 # viniciusdc.github.io
 
-Personal site — platform engineering field notes, architecture essays, and project writeups.
+> Platform engineering field notes, architecture essays, and project writeups.
 
-**[viniciusdc.github.io](https://viniciusdc.github.io)**
+[![Deploy](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/deploy.yml)
+[![CI](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/ci.yml)
+
+**Live site → [viniciusdc.github.io](https://viniciusdc.github.io)**
 
 ---
 
-## Stack
+## 🚀 Stack
 
-- [Astro 6](https://astro.build) — static site generator
-- [Tailwind CSS v4](https://tailwindcss.com) — utility-first CSS
-- [MDX](https://mdxjs.com) — markdown with component support
-- Deployed to GitHub Pages via GitHub Actions
+| | |
+|---|---|
+| Framework | [Astro 6](https://astro.build) |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com) |
+| Content | [MDX](https://mdxjs.com) + `.astro` pages |
+| Hosting | GitHub Pages via GitHub Actions |
 
-## Local development
+## 🧞 Commands
 
 ```sh
-npm install
-npm run dev        # http://localhost:4321
-npm run build      # production build to dist/
-npm run preview    # serve the dist/ build locally
+npm install          # install dependencies
+npm run dev          # dev server at http://localhost:4321
+npm run build        # production build → dist/
+npm run preview      # preview the dist/ build locally
+npm run spell        # run cspell spell-check locally
 ```
 
-## Content
+## 📁 Project structure
 
-Content lives under `src/pages/` and is gitignored by default — posts are committed via separate PRs.
+```
+src/
+├── layouts/         # Layout.astro, ArticleLayout.astro
+├── pages/
+│   ├── index.astro  # homepage
+│   ├── notes/       # field notes (gitignored, committed via content PRs)
+│   ├── architecture/# design essays (gitignored, committed via content PRs)
+│   ├── projects/    # project writeups
+│   ├── debug/       # debugging reference index
+│   └── about/
+├── components/
+│   └── ui/          # Badge.astro and other primitives
+├── styles/
+│   └── global.css
+└── templates/       # note.astro, architecture.astro — copy to start a post
+```
 
-| Section | Path | Format |
-|---|---|---|
-| Field notes | `src/pages/notes/<slug>/index.astro` | Short technical writeups |
-| Architecture | `src/pages/architecture/<slug>/index.astro` | Long-form design essays |
-| Projects | `src/pages/projects/<slug>/index.astro` | Project writeups |
+## ✍️ Adding content
 
-### Adding a new post
-
-Copy the relevant template from `src/templates/` and fill in the `metadata` export — this drives the index pages and homepage:
+Copy a template from `src/templates/`, then fill in the `metadata` export at the top of the file — this is what the homepage and index pages use to auto-discover posts at build time:
 
 ```ts
 export const metadata = {
-  title: "Short, specific title",
+  title: "Short, specific title describing the exact problem",
   date: "YYYY-MM-DD",
-  tag: "field note",
-  description: "One sentence description.",
+  tag: "field note",          // field note · debugging · security · architecture · platform
+  description: "One sentence. What does this note explain and why does it matter.",
 };
 ```
 
-Scripts to scaffold a new post:
+Scaffold scripts handle the boilerplate:
 
 ```sh
 scripts/new-note.sh <slug>
 scripts/new-architecture.sh <slug>
 ```
 
-## CI
+## 🔁 CI / CD
 
-| Job | Trigger | Purpose |
+| Job | Runs on | Does |
 |---|---|---|
-| Build | PR | Verify the site compiles |
-| Spell check | PR | cspell across all `.astro` and `.mdx` files |
-| Lighthouse audit | PR | Accessibility, SEO, best-practices, performance |
-| Deploy | Push to `gh-pages` | Build and publish to GitHub Pages |
+| **Build** | PR | Compiles the site, uploads `dist/` artifact |
+| **Spell check** | PR | cspell across `.astro` and `.mdx` source files |
+| **Lighthouse audit** | PR | Scores accessibility, SEO, best-practices, performance |
+| **Deploy** | Push to `gh-pages` | Builds and publishes to GitHub Pages |
 
-Dependabot runs weekly to keep npm deps and action SHAs current.
+All actions are pinned to commit SHAs. Dependabot opens weekly PRs to keep action SHAs and npm deps current.
