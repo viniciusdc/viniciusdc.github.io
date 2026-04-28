@@ -33,7 +33,7 @@
     "conda", "conda-forge", "feedstocks", "feedstock",
     "CRAN", "NumFOCUS",
     "countyfair", "regro",
-    "autotick",
+    "autotick", "ROSDistro", "Distro",
     "numpy", "scipy", "matplotlib",
     "yalmip", "YALMIP", "sedumi", "SeDuMi", "sdpt3", "SDPT3",
     "semidefinite", "semidefiniteness",
