@@ -1,15 +1,23 @@
-# viniciusdc.github.io
+<div align="center">
 
-Personal site — Kubernetes, platform engineering, TLS, identity, GPU runtimes, and the architecture decisions worth writing down.
+<h1>viniciusdc.github.io</h1>
 
-[![Deploy](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/deploy.yml)
-&nbsp;&nbsp;**→** [viniciusdc.github.io](https://viniciusdc.github.io)
+<p>Platform engineering field notes, architecture essays, and project writeups.<br>
+<sub>Kubernetes &nbsp;·&nbsp; TLS &nbsp;·&nbsp; identity &nbsp;·&nbsp; GPU runtimes &nbsp;·&nbsp; operator design</sub></p>
+
+[![site](https://img.shields.io/badge/viniciusdc.github.io-live-5eead4?style=flat-square)](https://viniciusdc.github.io)
+[![deploy](https://img.shields.io/github/actions/workflow/status/viniciusdc/viniciusdc.github.io/deploy.yml?branch=gh-pages&style=flat-square&label=deploy)](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/deploy.yml)
+
+<br>
+
+![Astro](https://img.shields.io/badge/Astro_6-BC52EE?style=flat-square&logo=astro&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![MDX](https://img.shields.io/badge/MDX-F9AC00?style=flat-square&logo=mdx&logoColor=black)
+
+</div>
 
 ---
-
-## Stack
-
-Built with [Astro 6](https://astro.build), [Tailwind CSS v4](https://tailwindcss.com), and [MDX](https://mdxjs.com). Deployed to GitHub Pages via GitHub Actions.
 
 ## Commands
 
