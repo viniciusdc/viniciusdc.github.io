@@ -1,0 +1,90 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const notes = [
+  {
+    href: "/notes/k3s-tls-trust-errors/",
+    date: "2026-04-27",
+    tag: "field note",
+    title: "K3s TLS trust errors from worker nodes",
+    desc: "Diagnosing kubeconfig, CA data, permissions, and API-server trust issues.",
+  },
+  {
+    href: "/notes/nvidia-runtimeclass-gpu-workloads/",
+    date: "2026-04-11",
+    tag: "debugging",
+    title: "Injecting NVIDIA runtimeClass into GPU workloads",
+    desc: "Device plugin, nvidia-ctk, containerd, RuntimeClass, and Kyverno policy boundaries.",
+  },
+  {
+    href: "/notes/traefik-tls-options-scanner-expectations/",
+    date: "2026-04-07",
+    tag: "security",
+    title: "Traefik TLS options and scanner expectations",
+    desc: "How TLS policy, redirect behavior, response headers, and certificate chains interact.",
+  },
+  {
+    href: "/notes/conda-forge-version-microservice/",
+    date: "2020-05-18",
+    tag: "gsoc",
+    title: "Separating conda-forge version updates from the graph",
+    desc: "Why update_upstream_versions needed to move out of the graph, and what extracting it actually involved.",
+  },
+];
+---
+
+<Layout title="Notes — Vinicius Cerutti" description="Field notes from real infrastructure work.">
+  <div class="w-[min(1120px,calc(100%-44px))] mx-auto">
+    <main>
+      <header class="py-[clamp(56px,7vw,88px)] border-b border-border">
+        <h1 class="page-title text-foreground">Field notes from real infrastructure work.</h1>
+        <p class="text-muted-foreground text-[19px] mb-0 max-w-[680px]">
+          Short technical writeups on Kubernetes, TLS, identity, GPU runtimes, and platform infrastructure.
+        </p>
+      </header>
+
+      <section class="py-[clamp(36px,4vw,52px)]">
+        <div class="grid grid-cols-2 gap-3.5">
+          {notes.map(({ href, date, tag, title, desc }) => (
+            <a href={href} class="index-card">
+              <div class="meta-label">{date} · {tag}</div>
+              <h2 class="index-title text-foreground">{title}</h2>
+              <p class="text-muted-foreground text-sm mb-0">{desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .kicker {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--accent); font-family: var(--font-mono); font-size: 13px; margin-bottom: 24px;
+  }
+  .page-title {
+    font-size: clamp(48px, 7vw, 84px); font-weight: 700; line-height: 0.96;
+    letter-spacing: -0.065em; max-width: 840px; margin: 0 0 20px;
+  }
+  .meta-label {
+    color: var(--faint); font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .index-card {
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 28px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: rgba(18,21,27,0.78);
+    transition: border-color 160ms, background 160ms; text-decoration: none;
+  }
+  .index-card:hover { border-color: var(--border-strong); background: var(--surface-raised); }
+  .index-title {
+    font-size: clamp(22px, 2.5vw, 30px); font-weight: 600; line-height: 1.15;
+    letter-spacing: -0.035em; max-width: 620px;
+    margin: 14px 0 10px;
+  }
+  @media (max-width: 780px) {
+    .grid { grid-template-columns: 1fr !important; }
+  }
+</style>

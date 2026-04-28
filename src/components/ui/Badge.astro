@@ -1,0 +1,14 @@
+---
+interface Props {
+  variant?: "default" | "outline" | "accent";
+  class?: string;
+}
+const { variant = "outline", class: className } = Astro.props;
+---
+<span class:list={[
+  "inline-flex items-center rounded-full px-2.5 py-1 font-mono text-[11px] leading-none",
+  variant === "outline" && "border border-border text-muted-foreground",
+  variant === "accent" && "border border-[rgba(216,166,87,0.38)] bg-[var(--accent-soft)] text-[#f1d39b]",
+  variant === "default" && "bg-primary text-primary-foreground",
+  className,
+]}><slot /></span>

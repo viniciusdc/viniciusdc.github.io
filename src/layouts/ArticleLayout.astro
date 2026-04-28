@@ -1,0 +1,177 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  meta: string;
+  subtitle: string;
+  backHref: string;
+  backLabel: string;
+  nextHref?: string;
+  nextLabel?: string;
+}
+
+const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextLabel } = Astro.props;
+---
+
+<Layout title={`${title} — Vinicius Cerutti`} description={description ?? subtitle}>
+  <div class="article-shell">
+    <header class="article-header">
+      <div class="article-meta">{meta}</div>
+      <h1 class="article-title">{title}</h1>
+      <p class="article-subtitle">{subtitle}</p>
+    </header>
+
+    <main class="article-content">
+      <slot />
+
+      <nav class="article-nav" aria-label="Article navigation">
+        <a href={backHref}>{backLabel}</a>
+        {nextHref && nextLabel && <a href={nextHref}>{nextLabel}</a>}
+      </nav>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .article-shell {
+    width: min(780px, calc(100% - 44px));
+    margin: 0 auto;
+  }
+  .article-header {
+    padding: clamp(64px, 8vw, 108px) 0 44px;
+    border-bottom: 1px solid var(--border);
+  }
+  .article-meta {
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .article-title {
+    font-size: clamp(38px, 5.5vw, 66px);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.055em;
+    color: var(--foreground);
+    margin: 0 0 18px;
+  }
+  .article-subtitle {
+    max-width: 680px;
+    color: var(--muted-foreground);
+    font-size: 19px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .article-content {
+    padding: 48px 0 80px;
+  }
+  .article-content :global(h2) {
+    margin: 40px 0 12px;
+    font-size: 26px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--foreground);
+  }
+  .article-content :global(p),
+  .article-content :global(li) {
+    color: #c3cbd6;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    padding-left: 1.3rem;
+    margin: 12px 0 20px;
+  }
+  .article-content :global(li + li) {
+    margin-top: 8px;
+  }
+  .article-content :global(code) {
+    color: #dfbb7f;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: rgba(216, 166, 87, 0.07);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .article-content :global(pre) {
+    overflow-x: auto;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #090b0f !important;
+    margin: 20px 0;
+  }
+  .article-content :global(pre code) {
+    color: #d9e2ec;
+    font-size: 13px;
+    background: none !important;
+    padding: 0;
+  }
+  .article-content :global(.callout) {
+    margin: 28px 0;
+    padding: 16px 20px;
+    border-left: 2px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    background: var(--accent-soft);
+  }
+  .article-content :global(.callout p) {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted-foreground);
+    line-height: 1.55;
+  }
+  .article-content :global(.callout strong) {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--foreground);
+    font-size: 13px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .article-content :global(figure) {
+    margin: 36px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .article-content :global(figure img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .article-content :global(figure.paper img) {
+    background: #f5f7f9;
+    padding: 20px 28px;
+  }
+  .article-content :global(figcaption) {
+    padding: 9px 18px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--faint);
+    border-top: 1px solid var(--border);
+    background: rgba(18,21,27,0.7);
+  }
+  .article-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--link);
+  }
+  .article-nav a { color: var(--link); }
+  .article-nav a:hover { text-decoration: underline; }
+</style>

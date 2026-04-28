@@ -1,0 +1,80 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+/* Always dark — design intent */
+:root {
+    color-scheme: dark;
+    --background: #0c0e12;
+    --foreground: #eef1f5;
+    --card: #12151b;
+    --card-foreground: #eef1f5;
+    --popover: #171b22;
+    --popover-foreground: #eef1f5;
+    --primary: #d8a657;
+    --primary-foreground: #0c0e12;
+    --secondary: #171b22;
+    --secondary-foreground: #eef1f5;
+    --muted: #171b22;
+    --muted-foreground: #a0a8b4;
+    --accent: #d8a657;
+    --accent-foreground: #0c0e12;
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: rgba(148, 163, 184, 0.16);
+    --border-strong: rgba(148, 163, 184, 0.28);
+    --input: rgba(148, 163, 184, 0.16);
+    --ring: #9bd1df;
+    --link: #9bd1df;
+    --faint: #697386;
+    --accent-soft: rgba(216, 166, 87, 0.11);
+    --surface-raised: #171b22;
+    --radius: 0.875rem;
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+    html {
+        @apply font-sans;
+        scroll-behavior: smooth;
+        /* Gradient on html so it fills the whole document, not just one viewport */
+        background-color: var(--background);
+        background-image:
+            radial-gradient(ellipse 80% 50% at 80% -5%, rgba(216, 166, 87, 0.13), transparent),
+            radial-gradient(ellipse 60% 40% at -5% 15%, rgba(155, 209, 223, 0.08), transparent);
+        background-attachment: scroll;
+    }
+    body {
+        @apply text-foreground;
+        background: transparent;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+}

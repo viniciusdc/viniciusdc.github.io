@@ -1,0 +1,141 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="About — Vinicius Cerutti" description="Software engineer working where infrastructure meets product reality.">
+  <div class="w-[min(780px,calc(100%-44px))] mx-auto">
+    <main>
+      <header class="page-header">
+        <h1 class="page-title">Vinicius Cerutti</h1>
+        <p class="page-sub">Software engineer. Bachelor of Mathematics. Working where infrastructure meets product reality.</p>
+      </header>
+
+      <div class="bio-body">
+        <p>
+          I work across Kubernetes, cloud infrastructure, platform engineering, and systems architecture.
+          Most of my day-to-day sits between product needs and low-level infrastructure behavior —
+          debugging clusters, shaping platform interfaces, writing automation,
+          and documenting the parts that shouldn't need to be rediscovered later.
+        </p>
+
+        <p>
+          I write in Go and Python. Go for Kubernetes-native tooling, operators, and control plane work.
+          Python for APIs, automation pipelines, and data workflows. I'm an emeritus contributor to
+          conda-forge, where I worked on the auto-tick bot infrastructure and package maintenance
+          automation.
+        </p>
+
+        <p>
+          My background is in applied mathematics — I studied at the Federal University of Santa
+          Catarina with a focus on optimization, nonlinear programming, and computational geometry.
+          My thesis work applied distance geometry and spectral methods to protein structure
+          determination. I retain an active interest in computational neuroscience and optimization.
+        </p>
+
+        <p>
+          This site is a collection of field notes, architecture decisions, and debug archive entries.
+          Mostly written for myself. Useful if you're debugging the same things.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="focus-list">
+          <div class="focus-item">
+            <span class="focus-label">focus</span>
+            <span>Platform engineering, Kubernetes, GitOps, identity, ingress, TLS, and infrastructure reliability.</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">currently</span>
+            <span>Building platform automation with Go at OpenTeams. Debugging bare-metal K3s clusters. Writing notes for problems worth solving only once.</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">background</span>
+            <span>Mathematics and computer science at UFSC. Optimization, distance geometry, protein refinement. GSoC 2020 with conda-forge.</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">approach</span>
+            <span>Debug → understand → document. Production friction should produce architecture insight, not just a fix.</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">links</span>
+            <span>
+              <a href="https://github.com/viniciusdc" class="profile-link">github.com/viniciusdc</a>
+              <span class="link-sep">·</span>
+              <a href="https://www.linkedin.com/in/vinicius-douglas-530202142/" class="profile-link">linkedin</a>
+              <span class="link-sep">·</span>
+              <a href="https://twitter.com/Ceture_it" class="profile-link">@Ceture_it</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    padding: clamp(64px, 8vw, 108px) 0 clamp(36px, 4vw, 52px);
+    border-bottom: 1px solid var(--border);
+  }
+  .page-title {
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 1.0;
+    margin: 0 0 16px;
+    color: var(--foreground);
+  }
+  .page-sub {
+    font-size: 18px;
+    color: var(--muted-foreground);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 560px;
+  }
+  .bio-body {
+    padding: clamp(36px, 5vw, 56px) 0 clamp(56px, 7vw, 80px);
+  }
+  .bio-body p {
+    font-size: 17px;
+    color: #c3cbd6;
+    line-height: 1.75;
+    margin: 0 0 22px;
+    max-width: 660px;
+  }
+  .divider {
+    border-top: 1px solid var(--border);
+    margin: 36px 0;
+  }
+  .focus-list {
+    display: grid;
+    gap: 18px;
+  }
+  .focus-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 20px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .focus-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+    padding-top: 2px;
+  }
+  .focus-item span:last-child {
+    color: var(--muted-foreground);
+  }
+  .profile-link {
+    color: var(--link);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .profile-link:hover { text-decoration: underline; }
+  .link-sep { color: var(--faint); margin: 0 6px; }
+  @media (max-width: 520px) {
+    .focus-item { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
