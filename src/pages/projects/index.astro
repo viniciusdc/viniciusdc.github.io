@@ -2,50 +2,23 @@
 import Layout from "@/layouts/Layout.astro";
 import Badge from "@/components/ui/Badge.astro";
 
-const projects = [
-  {
-    href: "/projects/nebari-infrastructure-core/",
-    label: "platform",
-    title: "Nebari Infrastructure Core",
-    desc: "A Go-first direction for managing cloud resources and platform services with declarative workflows.",
-    tags: ["go", "kubernetes", "gitops"],
-  },
-  {
-    href: "/projects/keycloak-backup-restore/",
-    label: "reliability",
-    title: "Keycloak backup and restore",
-    desc: "State recreation, topological ordering, restore planning, and conflict handling for identity platform objects.",
-    tags: ["python", "keycloak", "fastapi"],
-  },
-  {
-    href: "/projects/gsoc-conda-forge-autotick/",
-    label: "open source · 2020",
-    title: "conda-forge auto-tick bot",
-    desc: "GSoC 2020. Extracting the version-update pipeline from the conda-forge dependency graph into a standalone microservice.",
-    tags: ["python", "conda-forge", "dynamodb"],
-  },
-  {
-    href: "/projects/protein-refinement/",
-    label: "research · thesis",
-    title: "Protein conformation from distances",
-    desc: "Undergraduate thesis. Recovering 3D molecular structure from sparse inter-atomic distance bounds using SDP relaxation and SPG refinement.",
-    tags: ["python", "matlab", "numpy"],
-  },
-  {
-    href: "/projects/procurement-crawlers/",
-    label: "automation",
-    title: "Procurement crawlers",
-    desc: "Scrapy and browser-assisted crawlers for procurement portals — attachments, pagination, and normalization.",
-    tags: ["python", "scrapy", "selenium"],
-  },
-  {
-    href: "/projects/k3s-platform-testbeds/",
-    label: "operations",
-    title: "K3s platform testbeds",
-    desc: "HA clusters, MetalLB, Traefik, GPU nodes, firewalld, and local Vagrant/libvirt environments for platform experiments.",
-    tags: ["k3s", "rhel9", "gpu"],
-  },
-];
+interface ProjectMeta {
+  label: string;
+  title: string;
+  description: string;
+  tags: string[];
+}
+interface ProjectModule { metadata?: ProjectMeta; }
+
+function toHref(path: string) {
+  return '/projects' + path.replace(/^\.\//, '/').replace(/\/index\.(astro|mdx)$/, '/');
+}
+
+const modules = import.meta.glob<ProjectModule>('./*/index.astro', { eager: true });
+
+const projects = Object.entries(modules)
+  .filter(([, m]) => m.metadata)
+  .map(([path, m]) => ({ href: toHref(path), ...m.metadata! }));
 ---
 
 <Layout title="Projects — Vinicius Cerutti" description="Selected systems, tools, and platform work.">
@@ -58,21 +31,18 @@ const projects = [
 
       <section class="py-[clamp(36px,4vw,52px)]">
         <div class="grid grid-cols-2 gap-3.5">
-          {projects.map(({ href, label, title, desc, tags }) => {
-            const Tag = href ? "a" : "div";
-            return (
-              <Tag href={href} class={"project-card" + (href ? " is-link" : "")}>
+          {projects.map(({ href, label, title, description, tags }) => (
+              <a href={href} class="project-card is-link">
                 <div>
                   <div class="card-label">{label}</div>
                   <h2 class="card-title">{title}</h2>
-                  <p class="card-desc">{desc}</p>
+                  <p class="card-desc">{description}</p>
                 </div>
                 <div class="flex flex-wrap gap-2 mt-5">
                   {tags.map(t => <Badge variant="outline">{t}</Badge>)}
                 </div>
-              </Tag>
-            );
-          })}
+              </a>
+          ))}
         </div>
       </section>
     </main>
