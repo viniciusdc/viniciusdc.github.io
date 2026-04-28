@@ -14,11 +14,12 @@
 ## Commands
 
 ```sh
-npm install       # install dependencies
-npm run dev       # dev server → http://localhost:4321
-npm run build     # production build → dist/
-npm run preview   # serve dist/ locally
-npm run check     # type-check + spell-check
+make install      # npm install
+make dev          # dev server → http://localhost:4321
+make build        # production build → dist/
+make preview      # serve dist/ locally
+make check        # type-check + spell-check
+make banner       # regenerate .github/banner.svg
 ```
 
 ## Project structure
@@ -35,13 +36,22 @@ src/
 │   └── about/
 ├── components/ui/     # Badge.astro and other primitives
 ├── styles/global.css
-└── templates/         # copy to start a new post
+└── templates/         # note.mdx and architecture.mdx starters
 public/                # favicon and static assets
+scripts/               # gen-banner.mjs, new-post.sh
 ```
 
 ## Writing a post
 
-Copy `src/templates/note.astro` or `src/templates/architecture.astro`, then fill in the `metadata` export — the homepage and index pages auto-discover posts from this at build time:
+Scaffold a new post with `make post` — the slug is derived from the title automatically:
+
+```sh
+make post TITLE="k3s coredns loop"                          # field note (default)
+make post TITLE="k3s coredns loop" TAG="debugging"          # custom tag
+make post TITLE="operator ownership boundaries" TYPE=arch   # architecture essay
+```
+
+Posts are `.mdx` files. Each exports a `metadata` object that the homepage and index pages discover at build time — no manual registration needed:
 
 ```ts
 export const metadata = {
@@ -50,13 +60,6 @@ export const metadata = {
   tag: "field note",   // field note · debugging · security · architecture · platform
   description: "One sentence describing what this explains.",
 };
-```
-
-Scaffold scripts handle the boilerplate:
-
-```sh
-scripts/new-note.sh <slug>
-scripts/new-architecture.sh <slug>
 ```
 
 ## CI / CD
