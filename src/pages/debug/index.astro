@@ -2,34 +2,27 @@
 import Layout from "@/layouts/Layout.astro";
 import Badge from "@/components/ui/Badge.astro";
 
-const entries = [
-  {
-    label: "kubernetes / tls",
-    title: "x509: certificate signed by unknown authority",
-    desc: "Check kubeconfig CA data, file permissions, ownership, KUBECONFIG env, and whether the API endpoint changed after bootstrap.",
-    tags: ["k3s", "kubectl", "tls"],
-    href: "/notes/k3s-tls-trust-errors/",
-  },
-  {
-    label: "traefik / crd",
-    title: "unknown field sniStrict",
-    desc: "Validate the installed Traefik CRD version before applying TLSOption fields. Do not assume examples match the deployed API.",
-    tags: ["traefik", "crd", "tlsoption"],
-  },
-  {
-    label: "kyverno / gpu",
-    title: "policy contains invalid variables",
-    desc: "Escape resource keys such as nvidia.com/gpu carefully when using JMESPath expressions in Kyverno policies.",
-    tags: ["kyverno", "nvidia", "jmespath"],
-    href: "/notes/nvidia-runtimeclass-gpu-workloads/",
-  },
-  {
-    label: "playwright / tests",
-    title: "TimeoutError waiting for networkidle",
-    desc: "Do not default to networkidle for apps with long-lived requests. Prefer a specific selector or a more targeted load state.",
-    tags: ["tests", "playwright", "ui"],
-  },
-];
+interface DebugMeta {
+  label: string;
+  title: string;
+  description: string;
+  tags: string[];
+  href?: string;
+}
+interface DebugModule { metadata?: DebugMeta; }
+
+function toHref(path: string) {
+  return '/debug' + path.replace(/^\.\//, '/').replace(/\/index\.(astro|mdx)$/, '/');
+}
+
+const modules = import.meta.glob<DebugModule>('./*/index.astro', { eager: true });
+
+const entries = Object.entries(modules)
+  .filter(([, m]) => m.metadata)
+  .map(([path, m]) => ({
+    href: m.metadata!.href ?? toHref(path),
+    ...m.metadata!,
+  }));
 ---
 
 <Layout title="Debug Archive — Vinicius Cerutti" description="A compact archive of symptoms, likely causes, and practical fixes for recurring infrastructure problems.">
@@ -42,22 +35,17 @@ const entries = [
 
       <section class="py-[clamp(36px,4vw,52px)]">
         <div class="debug-grid">
-          {entries.map(({ label, title, desc, tags, href }) => (
-            <div class="debug-card">
+          {entries.map(({ label, title, description, tags, href }) => (
+            <a href={href} class="debug-card">
               <div>
                 <div class="card-label">{label}</div>
-                <h2 class="card-title">
-                  {href
-                    ? <a href={href} class="hover:text-[var(--link)] transition-colors"><code>{title}</code></a>
-                    : <code>{title}</code>
-                  }
-                </h2>
-                <p class="card-desc">{desc}</p>
+                <h2 class="card-title"><code>{title}</code></h2>
+                <p class="card-desc">{description}</p>
               </div>
               <div class="flex flex-wrap gap-2 mt-5">
                 {tags.map(t => <Badge variant="outline">{t}</Badge>)}
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </section>
@@ -99,7 +87,10 @@ const entries = [
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-decoration: none;
+    transition: border-color 160ms, background 160ms;
   }
+  .debug-card:hover { border-color: var(--border-strong); background: var(--surface-raised); }
   .card-label {
     font-family: var(--font-mono);
     font-size: 11px;
