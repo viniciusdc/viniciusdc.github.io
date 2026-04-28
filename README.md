@@ -1,9 +1,8 @@
 <div align="center">
 
-<h1>viniciusdc.github.io</h1>
+<img src=".github/banner.svg" alt="vinicius.dev — platform engineering field notes" width="100%"/>
 
-<p>Platform engineering field notes, architecture essays, and project writeups.<br>
-<sub>Kubernetes &nbsp;·&nbsp; TLS &nbsp;·&nbsp; identity &nbsp;·&nbsp; GPU runtimes &nbsp;·&nbsp; operator design</sub></p>
+<br>
 
 [![site](https://img.shields.io/badge/viniciusdc.github.io-live-5eead4?style=flat-square)](https://viniciusdc.github.io)
 [![deploy](https://img.shields.io/github/actions/workflow/status/viniciusdc/viniciusdc.github.io/deploy.yml?branch=gh-pages&style=flat-square&label=deploy)](https://github.com/viniciusdc/viniciusdc.github.io/actions/workflows/deploy.yml)
