@@ -1,0 +1,140 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Badge } from "@/components/ui/badge";
+
+const projects = [
+  {
+    href: "/projects/nebari-infrastructure-core/",
+    label: "platform",
+    title: "Nebari Infrastructure Core",
+    desc: "A Go-first direction for managing cloud resources and platform services with declarative workflows.",
+    tags: ["go", "kubernetes", "gitops"],
+  },
+  {
+    href: "/projects/keycloak-backup-restore/",
+    label: "reliability",
+    title: "Keycloak backup and restore",
+    desc: "State recreation, topological ordering, restore planning, and conflict handling for identity platform objects.",
+    tags: ["python", "keycloak", "fastapi"],
+  },
+  {
+    href: "/projects/gsoc-conda-forge-autotick/",
+    label: "open source · 2020",
+    title: "conda-forge auto-tick bot",
+    desc: "GSoC 2020. Extracting the version-update pipeline from the conda-forge dependency graph into a standalone microservice.",
+    tags: ["python", "conda-forge", "dynamodb"],
+  },
+  {
+    href: "/projects/protein-refinement/",
+    label: "research · thesis",
+    title: "Protein conformation from distances",
+    desc: "Undergraduate thesis. Recovering 3D molecular structure from sparse inter-atomic distance bounds using SDP relaxation and SPG refinement.",
+    tags: ["python", "matlab", "numpy"],
+  },
+  {
+    href: "/projects/procurement-crawlers/",
+    label: "automation",
+    title: "Procurement crawlers",
+    desc: "Scrapy and browser-assisted crawlers for procurement portals — attachments, pagination, and normalization.",
+    tags: ["python", "scrapy", "selenium"],
+  },
+  {
+    href: "/projects/k3s-platform-testbeds/",
+    label: "operations",
+    title: "K3s platform testbeds",
+    desc: "HA clusters, MetalLB, Traefik, GPU nodes, firewalld, and local Vagrant/libvirt environments for platform experiments.",
+    tags: ["k3s", "rhel9", "gpu"],
+  },
+];
+---
+
+<Layout title="Projects — Vinicius Cerutti" description="Selected systems, tools, and platform work.">
+  <div class="w-[min(1120px,calc(100%-44px))] mx-auto">
+    <main>
+      <header class="page-header">
+        <h1 class="page-title">Systems, tools, and platform work.</h1>
+        <p class="page-sub">Presented as engineering systems rather than portfolio cards.</p>
+      </header>
+
+      <section class="py-[clamp(36px,4vw,52px)]">
+        <div class="grid grid-cols-2 gap-3.5">
+          {projects.map(({ href, label, title, desc, tags }) => {
+            const Tag = href ? "a" : "div";
+            return (
+              <Tag href={href} class={"project-card" + (href ? " is-link" : "")}>
+                <div>
+                  <div class="card-label">{label}</div>
+                  <h2 class="card-title">{title}</h2>
+                  <p class="card-desc">{desc}</p>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-5">
+                  {tags.map(t => <Badge variant="outline">{t}</Badge>)}
+                </div>
+              </Tag>
+            );
+          })}
+        </div>
+      </section>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    padding: clamp(64px, 8vw, 108px) 0 clamp(40px, 5vw, 60px);
+    border-bottom: 1px solid var(--border);
+    max-width: 820px;
+  }
+  .page-title {
+    font-size: clamp(42px, 6vw, 76px);
+    font-weight: 700;
+    letter-spacing: -0.065em;
+    line-height: 0.97;
+    margin: 0 0 20px;
+    color: var(--foreground);
+  }
+  .page-sub {
+    font-size: 19px;
+    color: var(--muted-foreground);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 680px;
+  }
+  .project-card {
+    padding: 26px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(18,21,27,0.78);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    transition: border-color 160ms, background 160ms;
+  }
+  .project-card.is-link:hover { border-color: var(--border-strong); background: var(--surface-raised); }
+  .card-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-size: clamp(20px, 2.2vw, 26px);
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--foreground);
+    margin: 0 0 10px;
+  }
+  .card-desc {
+    font-size: 15px;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 780px) {
+    .grid { grid-template-columns: 1fr !important; }
+  }
+</style>

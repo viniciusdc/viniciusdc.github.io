@@ -1,0 +1,56 @@
+---
+// TEMPLATE: Architecture Essay
+// Copy to: src/pages/architecture/<slug>/index.astro
+// Run:     scripts/new-architecture.sh <slug>
+//
+// Checklist before publishing:
+//   [ ] Title frames the decision, not just the component ("X as Y" or "Why we shaped X this way")
+//   [ ] Subtitle describes what the essay argues or explains
+//   [ ] Meta tag matches the area: operator design · state systems · platform · reliability
+//   [ ] Sections flow: context → constraint → decision → tradeoffs
+//   [ ] No placeholder text remains
+
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+---
+
+<ArticleLayout
+  title="The decision or system being described"
+  meta="YYYY-MM-DD · architecture"
+  subtitle="What this essay argues or explains — one sentence."
+  backHref="/architecture/"
+  backLabel="← architecture"
+>
+
+## Context
+
+<!-- What is the system or problem space? -->
+<!-- What forces or constraints shaped this design space? -->
+<!-- Keep this tight — readers who don't need the intro should be able to skip it. -->
+
+## The problem
+
+<!-- What specifically needed a decision? -->
+<!-- What made this non-obvious? What were the competing options? -->
+
+## Design direction
+
+<!-- What approach was chosen and why? -->
+<!-- Be direct — state the decision, then justify it. -->
+
+## Tradeoffs
+
+<!-- What does this approach give up? -->
+<!-- What would make you revisit this decision? -->
+<!-- Honest tradeoff analysis is what separates architecture notes from documentation. -->
+
+## Boundaries
+
+<!-- Where does this design stop? What's explicitly out of scope? -->
+<!-- What sits at the interface and needs to be kept clean? -->
+
+<div class="callout">
+  <strong>Key insight</strong>
+  <!-- Optional: the one thing worth extracting — the observation that generalizes. -->
+</div>
+
+</ArticleLayout>

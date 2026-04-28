@@ -1,0 +1,59 @@
+---
+// TEMPLATE: Field Note
+// Copy to: src/pages/notes/<slug>/index.astro
+// Run:     scripts/new-note.sh <slug>
+//
+// Checklist before publishing:
+//   [ ] Title is specific — describes the exact problem, not just the area
+//   [ ] Meta date is accurate (YYYY-MM-DD)
+//   [ ] Tag is one of: field note · debugging · security · architecture · platform
+//   [ ] Subtitle is one sentence — states what the note explains
+//   [ ] backHref/nextHref links are correct
+//   [ ] No placeholder text remains
+
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+---
+
+<ArticleLayout
+  title="Short, specific title describing the exact problem"
+  meta="YYYY-MM-DD · field note"
+  subtitle="One sentence. What does this note explain and why does it matter."
+  backHref="/notes/"
+  backLabel="← all notes"
+>
+
+## Background
+
+<!-- What were you doing when you hit this? Give just enough context. -->
+<!-- One short paragraph. Avoid over-explaining the tech stack. -->
+
+## What happened
+
+<!-- Describe the symptom or error. Include the exact error message if there is one. -->
+<!-- Use a code block for terminal output: -->
+
+```
+error message or log output here
+```
+
+## Why it happens
+
+<!-- Root cause. One paragraph is usually enough. -->
+<!-- Explain the mechanism, not just "X was wrong". -->
+
+## Fix
+
+<!-- What resolved it. Be concrete — commands, config changes, file paths. -->
+
+```bash
+# commands here
+```
+
+<!-- If there are multiple approaches, list them with tradeoffs. -->
+
+<div class="callout">
+  <strong>Note</strong>
+  <!-- Optional: a gotcha, a caveat, or a "this also applies to..." observation. -->
+</div>
+
+</ArticleLayout>
