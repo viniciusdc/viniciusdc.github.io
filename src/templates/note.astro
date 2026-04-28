@@ -5,19 +5,26 @@
 //
 // Checklist before publishing:
 //   [ ] Title is specific — describes the exact problem, not just the area
-//   [ ] Meta date is accurate (YYYY-MM-DD)
-//   [ ] Tag is one of: field note · debugging · security · architecture · platform
-//   [ ] Subtitle is one sentence — states what the note explains
+//   [ ] metadata.date is accurate (YYYY-MM-DD)
+//   [ ] metadata.tag is one of: field note · debugging · security · architecture · platform
+//   [ ] metadata.description is one sentence — states what the note explains
 //   [ ] backHref/nextHref links are correct
 //   [ ] No placeholder text remains
+
+export const metadata = {
+  title: "Short, specific title describing the exact problem",
+  date: "YYYY-MM-DD",
+  tag: "field note",
+  description: "One sentence. What does this note explain and why does it matter.",
+};
 
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
 ---
 
 <ArticleLayout
-  title="Short, specific title describing the exact problem"
-  meta="YYYY-MM-DD · field note"
-  subtitle="One sentence. What does this note explain and why does it matter."
+  title={metadata.title}
+  meta={`${metadata.date} · ${metadata.tag}`}
+  subtitle={metadata.description}
   backHref="/notes/"
   backLabel="← all notes"
 >

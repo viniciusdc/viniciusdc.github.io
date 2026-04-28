@@ -1,29 +1,32 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 
-const latestNotes = [
-  {
-    href: "/notes/nvidia-runtimeclass-gpu-workloads/",
-    date: "2026-04-11",
-    tag: "debugging",
-    title: "Injecting NVIDIA runtimeClass into GPU workloads",
-    desc: "Device plugin, nvidia-ctk, containerd config, RuntimeClass, and Kyverno policy boundaries.",
-  },
-  {
-    href: "/notes/traefik-tls-options-scanner-expectations/",
-    date: "2026-04-07",
-    tag: "security",
-    title: "Traefik TLS options and scanner expectations",
-    desc: "Ingress behavior, TLS 1.2 cipher policy, redirects, and certificate chain presentation.",
-  },
-  {
-    href: "/architecture/keycloak-state-recreation/",
-    date: "2026-03-28",
-    tag: "architecture",
-    title: "Keycloak state recreation without surprises",
-    desc: "Dependency ordering, dry-run planning, conflict handling, and import/export boundaries.",
-  },
-];
+interface PostMeta {
+  title: string;
+  date?: string;
+  tag: string;
+  description: string;
+}
+interface PostModule { metadata?: PostMeta; }
+
+function toHref(base: string, path: string) {
+  return base + path.replace(/^\.\/[^/]+/, '').replace(/\/index\.(astro|mdx)$/, '/');
+}
+
+const noteAstro = import.meta.glob<PostModule>('./notes/*/index.astro', { eager: true });
+const noteMdx   = import.meta.glob<PostModule>('./notes/*/index.mdx',   { eager: true });
+const archAstro = import.meta.glob<PostModule>('./architecture/*/index.astro', { eager: true });
+const archMdx   = import.meta.glob<PostModule>('./architecture/*/index.mdx',   { eager: true });
+
+const allRecent = [
+  ...Object.entries({ ...noteAstro, ...noteMdx }).map(([p, m]) => ({ href: toHref('/notes', p), ...m.metadata! })),
+  ...Object.entries({ ...archAstro, ...archMdx }).map(([p, m]) => ({ href: toHref('/architecture', p), ...m.metadata! })),
+]
+  .filter(p => p.title && p.date)
+  .sort((a, b) => b.date!.localeCompare(a.date!));
+
+const featured = allRecent[0];
+const latestNotes = allRecent.slice(1, 4);
 ---
 
 <Layout title="Vinicius Cerutti — Field Notes">
@@ -62,31 +65,31 @@ const latestNotes = [
       </header>
 
       <!-- Latest -->
-      <section class="section-pad" aria-labelledby="latest-title">
-        <h2 class="section-kicker" id="latest-title">recent</h2>
+      {allRecent.length > 0 && (
+        <section class="section-pad" aria-labelledby="latest-title">
+          <h2 class="section-kicker" id="latest-title">recent</h2>
 
-        <div class="latest-layout">
-          <a href="/notes/k3s-tls-trust-errors/" class="featured-note card-link">
-            <div class="meta-label">2026-04-27 · field note</div>
-            <div>
-              <h3 class="featured-title text-foreground">K3s TLS trust errors from worker nodes</h3>
-              <p class="text-muted-foreground mb-0">
-                Why kubectl fails against the API server when kubeconfig ownership, CA data, or KUBECONFIG env drift.
-              </p>
+          <div class="latest-layout">
+            <a href={featured.href} class="featured-note card-link">
+              <div class="meta-label">{featured.date} · {featured.tag}</div>
+              <div>
+                <h3 class="featured-title text-foreground">{featured.title}</h3>
+                <p class="text-muted-foreground mb-0">{featured.description}</p>
+              </div>
+            </a>
+
+            <div class="note-list">
+              {latestNotes.map(({ href, date, tag, title, description }) => (
+                <a href={href} class="note-row block py-5 transition-all duration-150">
+                  <div class="meta-label mb-2">{date} · {tag}</div>
+                  <h3 class="text-[19px] font-semibold leading-snug tracking-tight text-foreground mb-1.5">{title}</h3>
+                  <p class="text-muted-foreground text-sm mb-0">{description}</p>
+                </a>
+              ))}
             </div>
-          </a>
-
-          <div class="note-list">
-            {latestNotes.map(({ href, date, tag, title, desc }) => (
-              <a href={href} class="note-row block py-5 transition-all duration-150">
-                <div class="meta-label mb-2">{date} · {tag}</div>
-                <h3 class="text-[19px] font-semibold leading-snug tracking-tight text-foreground mb-1.5">{title}</h3>
-                <p class="text-muted-foreground text-sm mb-0">{desc}</p>
-              </a>
-            ))}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
     </main>
   </div>
