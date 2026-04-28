@@ -1,0 +1,47 @@
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
+export const metadata = {
+  title: "The decision or system being described",
+  date: "YYYY-MM-DD",
+  tag: "architecture",
+  description: "What this essay argues or explains — one sentence.",
+};
+
+{/*
+  Checklist before publishing:
+  [ ] Title frames the decision, not just the component ("X as Y" or "Why we shaped X this way")
+  [ ] metadata.description describes what the essay argues or explains
+  [ ] metadata.tag matches the area: operator design · state systems · platform · reliability
+  [ ] Sections flow: context → constraint → decision → tradeoffs
+  [ ] No placeholder text remains
+*/}
+
+<ArticleLayout
+  title={metadata.title}
+  meta={`${metadata.date} · ${metadata.tag}`}
+  subtitle={metadata.description}
+  backHref="/architecture/"
+  backLabel="← architecture"
+>
+
+## Context
+
+{/* What is the system or problem space? What forces or constraints shaped this? Keep it tight. */}
+
+## The problem
+
+{/* What specifically needed a decision? What made this non-obvious? What were the competing options? */}
+
+## Design direction
+
+{/* What approach was chosen and why? Be direct — state the decision, then justify it. */}
+
+## Tradeoffs
+
+{/* What does this approach give up? What would make you revisit this decision? */}
+
+## Boundaries
+
+{/* Where does this design stop? What's explicitly out of scope? */}
+
+</ArticleLayout>

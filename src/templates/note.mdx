@@ -1,0 +1,52 @@
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
+export const metadata = {
+  title: "Short, specific title describing the exact problem",
+  date: "YYYY-MM-DD",
+  tag: "field note",
+  description: "One sentence. What does this note explain and why does it matter.",
+};
+
+{/*
+  Checklist before publishing:
+  [ ] Title is specific — describes the exact problem, not just the area
+  [ ] metadata.date is accurate (YYYY-MM-DD)
+  [ ] metadata.tag is one of: field note · debugging · security · architecture · platform
+  [ ] metadata.description is one sentence — states what the note explains
+  [ ] backHref/nextHref links are correct
+  [ ] No placeholder text remains
+*/}
+
+<ArticleLayout
+  title={metadata.title}
+  meta={`${metadata.date} · ${metadata.tag}`}
+  subtitle={metadata.description}
+  backHref="/notes/"
+  backLabel="← all notes"
+>
+
+## Background
+
+{/* What were you doing when you hit this? Give just enough context. One short paragraph. */}
+
+## What happened
+
+{/* Describe the symptom or error. Include the exact error message if there is one. */}
+
+```
+error message or log output here
+```
+
+## Why it happens
+
+{/* Root cause. One paragraph. Explain the mechanism, not just "X was wrong". */}
+
+## Fix
+
+{/* What resolved it. Be concrete — commands, config changes, file paths. */}
+
+```bash
+# commands here
+```
+
+</ArticleLayout>
