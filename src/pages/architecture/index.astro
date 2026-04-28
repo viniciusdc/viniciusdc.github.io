@@ -1,26 +1,25 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 
-const essays = [
-  {
-    href: "/architecture/nic-operator-platform-wiring/",
-    tag: "operator design",
-    title: "Designing the NIC operator as a platform wiring layer",
-    desc: "A Kubernetes-native contract for route, TLS, and auth attachment in a GitOps platform ecosystem.",
-  },
-  {
-    href: "/architecture/keycloak-state-recreation/",
-    tag: "state systems",
-    title: "Backup and restore as declarative state recreation",
-    desc: "Dependency ordering, dry-run planning, conflict handling, and import/export boundaries.",
-  },
-  {
-    href: "/architecture/distance-geometry-protein-refinement/",
-    tag: "computational geometry",
-    title: "Protein conformation as a distance geometry problem",
-    desc: "SDP relaxation as initial point, spectral projected gradient as refinement — recovering 3D structure from sparse distance bounds.",
-  },
-];
+interface PostMeta {
+  title: string;
+  date?: string;
+  tag: string;
+  description: string;
+}
+interface PostModule { metadata?: PostMeta; }
+
+function toHref(base: string, path: string) {
+  return base + path.replace(/^\.\//, '/').replace(/\/index\.(astro|mdx)$/, '/');
+}
+
+const astroModules = import.meta.glob<PostModule>('./*/index.astro', { eager: true });
+const mdxModules  = import.meta.glob<PostModule>('./*/index.mdx',   { eager: true });
+
+const essays = [...Object.entries(astroModules), ...Object.entries(mdxModules)]
+  .filter(([, m]) => m.metadata)
+  .map(([path, m]) => ({ href: toHref('/architecture', path), ...m.metadata! }))
+  .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
 ---
 
 <Layout title="Architecture — Vinicius Cerutti" description="Long-form design notes about system boundaries, tradeoffs, and platform direction.">
@@ -32,15 +31,19 @@ const essays = [
       </header>
 
       <section class="py-[clamp(36px,4vw,52px)]">
-        <div class="grid grid-cols-2 gap-3.5">
-          {essays.map(({ href, tag, title, desc }) => (
-            <a href={href} class="index-card">
-              <div class="card-tag">{tag}</div>
-              <h2 class="card-title">{title}</h2>
-              <p class="card-desc">{desc}</p>
-            </a>
-          ))}
-        </div>
+        {essays.length === 0 ? (
+          <p class="text-muted-foreground text-sm">No essays published yet.</p>
+        ) : (
+          <div class="grid grid-cols-2 gap-3.5">
+            {essays.map(({ href, tag, title, description }) => (
+              <a href={href} class="index-card">
+                <div class="card-tag">{tag}</div>
+                <h2 class="card-title">{title}</h2>
+                <p class="card-desc">{description}</p>
+              </a>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   </div>

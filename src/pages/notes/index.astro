@@ -1,36 +1,25 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 
-const notes = [
-  {
-    href: "/notes/k3s-tls-trust-errors/",
-    date: "2026-04-27",
-    tag: "field note",
-    title: "K3s TLS trust errors from worker nodes",
-    desc: "Diagnosing kubeconfig, CA data, permissions, and API-server trust issues.",
-  },
-  {
-    href: "/notes/nvidia-runtimeclass-gpu-workloads/",
-    date: "2026-04-11",
-    tag: "debugging",
-    title: "Injecting NVIDIA runtimeClass into GPU workloads",
-    desc: "Device plugin, nvidia-ctk, containerd, RuntimeClass, and Kyverno policy boundaries.",
-  },
-  {
-    href: "/notes/traefik-tls-options-scanner-expectations/",
-    date: "2026-04-07",
-    tag: "security",
-    title: "Traefik TLS options and scanner expectations",
-    desc: "How TLS policy, redirect behavior, response headers, and certificate chains interact.",
-  },
-  {
-    href: "/notes/conda-forge-version-microservice/",
-    date: "2020-05-18",
-    tag: "gsoc",
-    title: "Separating conda-forge version updates from the graph",
-    desc: "Why update_upstream_versions needed to move out of the graph, and what extracting it actually involved.",
-  },
-];
+interface PostMeta {
+  title: string;
+  date: string;
+  tag: string;
+  description: string;
+}
+interface PostModule { metadata?: PostMeta; }
+
+function toHref(base: string, path: string) {
+  return base + path.replace(/^\.\//, '/').replace(/\/index\.(astro|mdx)$/, '/');
+}
+
+const astroModules = import.meta.glob<PostModule>('./*/index.astro', { eager: true });
+const mdxModules  = import.meta.glob<PostModule>('./*/index.mdx',   { eager: true });
+
+const notes = [...Object.entries(astroModules), ...Object.entries(mdxModules)]
+  .filter(([, m]) => m.metadata)
+  .map(([path, m]) => ({ href: toHref('/notes', path), ...m.metadata! }))
+  .sort((a, b) => b.date.localeCompare(a.date));
 ---
 
 <Layout title="Notes — Vinicius Cerutti" description="Field notes from real infrastructure work.">
@@ -44,15 +33,19 @@ const notes = [
       </header>
 
       <section class="py-[clamp(36px,4vw,52px)]">
-        <div class="grid grid-cols-2 gap-3.5">
-          {notes.map(({ href, date, tag, title, desc }) => (
-            <a href={href} class="index-card">
-              <div class="meta-label">{date} · {tag}</div>
-              <h2 class="index-title text-foreground">{title}</h2>
-              <p class="text-muted-foreground text-sm mb-0">{desc}</p>
-            </a>
-          ))}
-        </div>
+        {notes.length === 0 ? (
+          <p class="text-muted-foreground text-sm">No notes published yet.</p>
+        ) : (
+          <div class="grid grid-cols-2 gap-3.5">
+            {notes.map(({ href, date, tag, title, description }) => (
+              <a href={href} class="index-card">
+                <div class="meta-label">{date} · {tag}</div>
+                <h2 class="index-title text-foreground">{title}</h2>
+                <p class="text-muted-foreground text-sm mb-0">{description}</p>
+              </a>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   </div>
