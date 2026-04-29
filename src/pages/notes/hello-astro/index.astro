@@ -1,0 +1,47 @@
+---
+export const metadata = {
+  title: "Migrating from Jekyll to Astro",
+  date: "2026-04-29",
+  tag: "field note",
+  description: "Why I replaced a Jekyll GitHub Pages blog with an Astro site and what the migration actually involved.",
+};
+
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+---
+
+<ArticleLayout
+  title={metadata.title}
+  meta={`${metadata.date} · ${metadata.tag}`}
+  subtitle={metadata.description}
+  backHref="/notes/"
+  backLabel="← all notes"
+>
+
+## Why
+
+The Jekyll blog worked fine for static posts but the Ruby toolchain was becoming a
+maintenance burden — Bundler, `rbenv`, gem lockfiles, and a parade of Dependabot bumps
+for gems the site barely used. Every new machine required setting up a Ruby environment
+just to preview a post.
+
+Astro runs on Node, which is already present everywhere, and the component model fits
+how I actually think about pages: layout once, content separately.
+
+## What changed
+
+The site is now fully static Astro with `.astro` pages and `export const metadata`
+instead of YAML frontmatter. Content discovery uses `import.meta.glob` rather than
+Jekyll's collection system, so adding a new note means dropping a file in the right
+directory — no config changes needed.
+
+GitHub Pages now deploys via a workflow artifact (`actions/upload-pages-artifact` +
+`actions/deploy-pages`) instead of building from a branch. The `gh-pages` branch, which
+previously held both source and the Jekyll build output depending on the era, was renamed
+to `main`.
+
+## What stayed the same
+
+The domain, the URL structure, and the overall design. The goal was to remove friction
+from the authoring workflow, not redesign the site.
+
+</ArticleLayout>
