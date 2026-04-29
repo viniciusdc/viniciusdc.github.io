@@ -64,18 +64,33 @@ jobs:
     timeout-minutes: 10
     permissions:
       pull-requests: write
+    env:
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
+      - name: Check SURGE_TOKEN
+        id: check
+        run: |
+          if [ -z "$SURGE_TOKEN" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::SURGE_TOKEN secret not set — skipping preview deployment"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        if: steps.check.outputs.configured == 'true'
         with:
           name: dist
           path: dist/
 
       - name: Deploy to surge.sh
+        if: steps.check.outputs.configured == 'true'
         run: |
           npm install --global surge
-          surge ./dist viniciusdc-blog-pr-${{ github.event.pull_request.number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+          surge ./dist viniciusdc-blog-pr-${{ github.event.pull_request.number }}.surge.sh --token "$SURGE_TOKEN"
 
       - name: Post preview URL comment
+        if: steps.check.outputs.configured == 'true'
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |

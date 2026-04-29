@@ -13,13 +13,26 @@ jobs:
     name: Teardown surge preview
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
+      - name: Check SURGE_TOKEN
+        id: check
+        run: |
+          if [ -z "$SURGE_TOKEN" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Teardown surge deployment
+        if: steps.check.outputs.configured == 'true'
         run: |
           npm install --global surge
-          surge teardown viniciusdc-blog-pr-${{ github.event.pull_request.number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+          surge teardown viniciusdc-blog-pr-${{ github.event.pull_request.number }}.surge.sh --token "$SURGE_TOKEN"
 
       - name: Update preview comment
+        if: steps.check.outputs.configured == 'true'
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
