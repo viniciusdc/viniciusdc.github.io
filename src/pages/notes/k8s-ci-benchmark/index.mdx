@@ -92,26 +92,39 @@ of the benchmark repo.
 
 ## Conclusions
 
-Across runs on `ubuntu-latest`, the tools split into a clear order for cold-start speed
-and footprint, while differing sharply in operational model:
+Benchmarks ran on `ubuntu-latest` (2 vCPUs, 7 GB RAM), K8s v1.32, extras disabled
+across all three tools. Full lifecycle logs:
+[benchmark run — April 2026](https://redirect.github.com/viniciusdc/k8s-local-benchmark/actions/runs/24283780667).
+
+### Timing results
+
+| | kind v0.31.0 | k3d v5.8.3 | k3s v1.32.13 |
+|---|---:|---:|---:|
+| **Cluster create** | 39.8s | 12.6s | 8.6s |
+| **Nodes ready** | 1.0s | 1.3s | 1.7s |
+| **Image load** | 1.4s | 3.3s | 0.7s |
+| **Deployment ready** | 1.2s | 2.2s | 18.0s |
+| **Cluster delete** | 0.6s | 0.4s | 3.7s |
+
+k3s wins on raw cluster create (8.6s) but loses on first deployment (18.0s) — the
+install script returns before controllers are fully stable, so the workload wait absorbs
+the gap. k3d's `--wait` flag blocks until the node and controllers are ready, making
+its total time to first workload (~18s create + deploy) faster than k3s (~27s).
+
+### Operational characteristics
 
 | | kind | k3d | k3s (bare) |
 |---|---|---|---|
-| **Startup** | slowest | mid | fastest |
-| **Idle memory** | highest | mid | lowest |
-| **Image load** | `kind load docker-image` | `k3d image import` | `k3s ctr images import` |
+| **Idle memory** | ~463 MiB | ~423 MiB | ~275 MiB |
+| **Image load CLI** | `kind load docker-image` | `k3d image import` | `k3s ctr images import` |
 | **Timing data** | docker logs | docker logs + k8s events | journalctl (µs precision) |
 | **Root required** | no | no | yes |
 | **Teardown** | `kind delete cluster` | `k3d cluster delete` | `k3s-uninstall.sh` |
 
-For a shared CI action where the environment is ephemeral and controlled, **k3d** is the
-pragmatic middle ground: faster and lighter than kind, no rootful install requirement,
-and Docker-based so image injection stays consistent with the rest of the workflow.
-k3s is worth revisiting if startup shaves enough time to matter at scale, but the
-rootful constraint complicates image pre-loading.
-
-Exact timing numbers for each run are in the
-[GitHub Actions job summaries](https://redirect.github.com/viniciusdc/k8s-local-benchmark/actions).
+For a shared CI action, **k3d** is the pragmatic pick: fastest end-to-end from create
+to first workload, no rootful install, Docker-based image injection, and already in use
+across half the nebari-dev repos. k3s is worth revisiting if startup time becomes a
+bottleneck at scale, but the rootful constraint complicates image pre-loading.
 
 <div class="callout">
   <strong>Note</strong>
