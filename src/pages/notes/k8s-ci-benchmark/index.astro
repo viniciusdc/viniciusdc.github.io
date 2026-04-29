@@ -1,0 +1,103 @@
+---
+export const metadata = {
+  title: "Benchmarking kind, k3d, and k3s on GitHub Actions",
+  date: "2026-04-29",
+  tag: "platform",
+  description: "Measuring cluster startup, resource footprint, and image load across the three main local K8s tools to pick a standard for a shared Nebari CI action.",
+};
+
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+---
+
+<ArticleLayout
+  title={metadata.title}
+  meta={`${metadata.date} · ${metadata.tag}`}
+  subtitle={metadata.description}
+  backHref="/notes/"
+  backLabel="← all notes"
+>
+
+## Background
+
+Across the `nebari-dev` org, every component repo that needs integration testing rolls
+its own local cluster setup. `nebari-operator` uses kind with custom shell scripts in
+`dev/scripts/`. `nebari-landing` uses minikube with Makefile targets. Pack repos like
+`nebari-mlflow-pack` work around this by checking out the operator repo at CI time just
+to reuse those scripts — a fragile cross-repo dependency that breaks silently when the
+operator refactors.
+
+The goal is to replace all of that with a single reusable composite action backed by
+NIC itself. Before committing to one tool, the question was: **which local K8s runtime
+should the shared action standardize on?**
+
+See [nebari-dev/nebari-infrastructure-core#243](https://github.com/nebari-dev/nebari-infrastructure-core/issues/243)
+for the full proposal.
+
+## What was measured
+
+The benchmark runs three parallel jobs — one per tool — on `ubuntu-latest` with a
+common configuration:
+
+- **Kubernetes version**: v1.32 (same image/tag across all three)
+- **Extras disabled**: Traefik, ServiceLB, metrics-server — to isolate cluster overhead,
+  not bundled add-ons
+- **No load balancer** for k3d (`--no-lb`)
+
+Each job records wall-clock time for every phase using `date +%s%N` brackets:
+
+| Phase | What it measures |
+|-------|-----------------|
+| Cluster create | `kind create` / `k3d cluster create` / k3s install script, including `--wait` |
+| Nodes ready | `kubectl wait --for=condition=Ready nodes --all` after create returns |
+| System pods ready | `kubectl wait --for=condition=Ready pods --all -n kube-system` |
+| Image load | Loading `nginx:1.27-alpine` into the cluster's image store |
+| Deployment ready | `kubectl wait --for=condition=Available deployment/nginx` |
+| Cluster delete | Teardown time |
+
+Resource usage (memory RSS, VSZ, CPU%) is sampled once after the cluster stabilizes.
+
+## Tool differences worth knowing
+
+**kind** wraps the control plane in a Docker container. Image loads go through
+`kind load docker-image`, which tars and imports via the container runtime. Lifecycle
+events are visible in `docker logs` on the control-plane container.
+
+**k3d** also runs inside Docker (it's k3s-in-Docker), but the cluster config adds a
+server node via `k3d-bench-server-0`. Image loads use `k3d image import`. Kubernetes
+events via `kubectl get events` give a useful second timeline alongside docker logs.
+
+**k3s** (bare) installs directly onto the runner via the upstream install script and
+runs as a systemd service. This means:
+- `journalctl -u k3s` gives **microsecond-precision** lifecycle timestamps — more
+  granular than docker log timestamps
+- Image loading requires `docker save | sudo k3s ctr images import` rather than a
+  native CLI command
+- Teardown is `/usr/local/bin/k3s-uninstall.sh`
+
+The k3s process runs as root on the host, so resource sampling uses `ps` against the
+`k3s server` PID rather than `docker stats`.
+
+## Why this matters for the reusable action
+
+The shared action needs to be fast (developers run it on every PR), lightweight
+(GH Actions runners have 7 GB RAM), and easy to configure without per-repo
+customization. The benchmark results directly answer:
+
+- Which tool has the shortest cold-start wall time?
+- Which has the lowest idle memory footprint after stabilization?
+- How fast is image injection — relevant because NIC bootstraps several images
+  (ArgoCD, Keycloak, Envoy Gateway, cert-manager) during environment setup?
+
+Live results for each run are in the
+[GitHub Actions job summaries](https://github.com/viniciusdc/k8s-local-benchmark/actions)
+of the benchmark repo.
+
+<div class="callout">
+  <strong>Note</strong>
+  k3s bare gives the most precise timing data via journalctl, but its rootful install
+  means any image injection step has to go through <code>k3s ctr</code> rather than
+  Docker CLI — worth factoring in if the action needs to pre-load images before NIC
+  runs.
+</div>
+
+</ArticleLayout>
