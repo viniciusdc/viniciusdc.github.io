@@ -86,17 +86,13 @@ customization. The benchmark results directly answer:
 - How fast is image injection — relevant because NIC bootstraps several images
   (ArgoCD, Keycloak, Envoy Gateway, cert-manager) during environment setup?
 
-Live results for each run are in the
-[GitHub Actions job summaries](https://redirect.github.com/viniciusdc/k8s-local-benchmark/actions)
-of the benchmark repo.
-
-## Conclusions
+## Results
 
 Benchmarks ran on `ubuntu-latest` (2 vCPUs, 7 GB RAM), K8s v1.32, extras disabled
 across all three tools. Full lifecycle logs:
 [benchmark run — April 2026](https://redirect.github.com/viniciusdc/k8s-local-benchmark/actions/runs/24283780667).
 
-### Timing results
+### Timing
 
 | | kind v0.31.0 | k3d v5.8.3 | k3s v1.32.13 |
 |---|---:|---:|---:|
@@ -120,6 +116,8 @@ its total time to first workload (~18s create + deploy) faster than k3s (~27s).
 | **Timing data** | docker logs | docker logs + k8s events | journalctl (µs precision) |
 | **Root required** | no | no | yes |
 | **Teardown** | `kind delete cluster` | `k3d cluster delete` | `k3s-uninstall.sh` |
+
+## Conclusions
 
 For a shared CI action, **k3d** is the pragmatic pick: fastest end-to-end from create
 to first workload, no rootful install, Docker-based image injection, and already in use
