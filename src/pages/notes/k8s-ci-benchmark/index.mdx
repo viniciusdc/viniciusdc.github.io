@@ -1,13 +1,11 @@
----
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
 export const metadata = {
   title: "Benchmarking kind, k3d, and k3s on GitHub Actions",
   date: "2026-04-29",
   tag: "platform",
   description: "Measuring cluster startup, resource footprint, and image load across the three main local K8s tools to pick a standard for a shared Nebari CI action.",
 };
-
-import ArticleLayout from "@/layouts/ArticleLayout.astro";
----
 
 <ArticleLayout
   title={metadata.title}
