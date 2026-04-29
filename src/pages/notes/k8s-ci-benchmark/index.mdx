@@ -90,6 +90,29 @@ Live results for each run are in the
 [GitHub Actions job summaries](https://redirect.github.com/viniciusdc/k8s-local-benchmark/actions)
 of the benchmark repo.
 
+## Conclusions
+
+Across runs on `ubuntu-latest`, the tools split into a clear order for cold-start speed
+and footprint, while differing sharply in operational model:
+
+| | kind | k3d | k3s (bare) |
+|---|---|---|---|
+| **Startup** | slowest | mid | fastest |
+| **Idle memory** | highest | mid | lowest |
+| **Image load** | `kind load docker-image` | `k3d image import` | `k3s ctr images import` |
+| **Timing data** | docker logs | docker logs + k8s events | journalctl (µs precision) |
+| **Root required** | no | no | yes |
+| **Teardown** | `kind delete cluster` | `k3d cluster delete` | `k3s-uninstall.sh` |
+
+For a shared CI action where the environment is ephemeral and controlled, **k3d** is the
+pragmatic middle ground: faster and lighter than kind, no rootful install requirement,
+and Docker-based so image injection stays consistent with the rest of the workflow.
+k3s is worth revisiting if startup shaves enough time to matter at scale, but the
+rootful constraint complicates image pre-loading.
+
+Exact timing numbers for each run are in the
+[GitHub Actions job summaries](https://redirect.github.com/viniciusdc/k8s-local-benchmark/actions).
+
 <div class="callout">
   <strong>Note</strong>
   k3s bare gives the most precise timing data via journalctl, but its rootful install
