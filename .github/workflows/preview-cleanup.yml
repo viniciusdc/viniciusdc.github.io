@@ -1,0 +1,40 @@
+name: Cleanup preview
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  cleanup:
+    name: Teardown surge preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Teardown surge deployment
+        run: |
+          npm install --global surge
+          surge teardown viniciusdc-blog-pr-${{ github.event.pull_request.number }}.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+
+      - name: Update preview comment
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            const marker = '<!-- surge-preview -->';
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c => c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: `${marker}\n### Preview removed\n\nThis PR has been closed and the preview deployment has been torn down.`,
+              });
+            }
