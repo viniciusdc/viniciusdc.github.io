@@ -5,6 +5,7 @@ dist/
 
 # dependencies
 node_modules/
+.pixi/
 
 # logs
 npm-debug.log*

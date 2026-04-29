@@ -1,21 +1,26 @@
 .PHONY: install dev build preview check banner post
 
-# ── npm ───────────────────────────────────────────────────────────────────────
+# ── env ───────────────────────────────────────────────────────────────────────
+
+env:
+	pixi install
+
+# ── npm (runs inside pixi env) ────────────────────────────────────────────────
 
 install:
-	npm install
+	pixi run install
 
 dev:
-	npm run dev
+	pixi run dev
 
 build:
-	npm run build
+	pixi run build
 
 preview:
-	npm run preview
+	pixi run preview
 
 check:
-	npm run check
+	pixi run check
 
 # ── assets ────────────────────────────────────────────────────────────────────
 
