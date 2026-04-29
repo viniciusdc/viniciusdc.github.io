@@ -140,10 +140,21 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
   }
   .article-content :global(ul),
   .article-content :global(ol) {
-    padding-left: 1.3rem;
+    padding-left: 1.4rem;
     margin: 12px 0 20px;
   }
-  .article-content :global(li + li) { margin-top: 8px; }
+  .article-content :global(ul) { list-style-type: disc; }
+  .article-content :global(ol) { list-style-type: decimal; }
+  .article-content :global(li::marker) {
+    color: var(--faint);
+  }
+  .article-content :global(li + li) {
+    margin-top: 8px;
+  }
+  .article-content :global(strong) {
+    color: var(--foreground);
+    font-weight: 600;
+  }
   .article-content :global(code) {
     color: #dfbb7f;
     font-family: var(--font-mono);
