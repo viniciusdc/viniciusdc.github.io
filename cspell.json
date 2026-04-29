@@ -26,6 +26,7 @@
     "cli", "sdk", "iac",
     "hostnames", "hostname",
     "networkidle",
+    "lockfiles", "lockfile", "frontmatter",
     "writeups", "write-ups",
     "hsts", "HSTS",
     "tlsoptions",
