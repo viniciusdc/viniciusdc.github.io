@@ -41,7 +41,8 @@
     "nonmonotone", "GLL",
     "Hessian", "quasi-Newton",
     "NMR", "PDB", "crystallography",
-    "Gram"
+    "Gram", "Schoenberg", "Wüthrich", "ChimeraX", "PIBIC", "RMSD", "MDE", "RCSB",
+    "PGDm", "Gonçalves", "Birgin", "Martínez", "Raydan", "UCSF"
   ],
   "ignorePaths": [
     "node_modules/**",
