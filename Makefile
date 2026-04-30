@@ -1,26 +1,26 @@
 .PHONY: install dev build preview check banner post
 
-# ── npm ───────────────────────────────────────────────────────────────────────
+# ── environment ───────────────────────────────────────────────────────────────
 
 install:
-	npm install
+	pixi run install
 
 dev:
-	npm run dev
+	pixi run dev
 
 build:
-	npm run build
+	pixi run build
 
 preview:
-	npm run preview
+	pixi run preview
 
 check:
-	npm run check
+	pixi run check
 
 # ── assets ────────────────────────────────────────────────────────────────────
 
 banner:
-	node scripts/gen-banner.mjs
+	pixi run banner
 
 # ── content ───────────────────────────────────────────────────────────────────
 #
@@ -33,4 +33,4 @@ ifndef TITLE
 	$(error TITLE is required.  make post TITLE="my title" TAG="debugging" TYPE=note)
 endif
 	@chmod +x scripts/new-post.sh
-	@scripts/new-post.sh "$(TITLE)" "$(or $(TAG),field note)" "$(or $(TYPE),note)"
+	@pixi run node scripts/new-post.sh "$(TITLE)" "$(or $(TAG),field note)" "$(or $(TYPE),note)"
