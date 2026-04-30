@@ -19,13 +19,14 @@ export const metadata = {
 
 This is from a 2019/2020 PIBIC undergraduate research project at UFSC (Department of Mathematics, advised by Prof. Douglas Gonçalves). The full report — in Portuguese — lives at [viniciusdc/protein-refinement](https://github.com/viniciusdc/protein-refinement); the implementation is at [viniciusdc/Protein-Refinement_prime](https://github.com/viniciusdc/Protein-Refinement_prime).
 
-Proteins are usually solved by X-ray crystallography or, since Wüthrich's work in the 1980s, by nuclear magnetic resonance on proteins in solution. NMR resembles the in-vivo environment more closely than crystals do, but it doesn't return exact pairwise atomic distances — it returns **intervals** `[d_lower, d_upper]`. Each measurement varies, and the experimentalists honestly report a range rather than a number.
+Proteins are usually solved by X-ray crystallography or, since Wüthrich's work in the 1980s, by nuclear magnetic resonance on proteins in solution. NMR resembles the in-vivo environment more closely than crystals do, but it doesn't return exact pairwise atomic distances — it returns **intervals** $[d_{\text{lower}},\, d_{\text{upper}}]$. Each measurement varies, and the experimentalists honestly report a range rather than a number.
 
-That gives the **molecular distance geometry problem with intervals** (PGDm): given interval constraints between atom pairs, recover positions `x_1, …, x_n ∈ ℝ³` such that
+That gives the **molecular distance geometry problem with intervals** (PGDm): given interval constraints between atom pairs, recover positions $x_1, \ldots, x_n \in \mathbb{R}^3$ such that
 
-```
-d_lower(i,j) ≤ ‖x_i − x_j‖ ≤ d_upper(i,j)   for every observed pair (i,j).
-```
+$$
+d_{\text{lower}}(i,j) \;\le\; \|x_i - x_j\| \;\le\; d_{\text{upper}}(i,j)
+\quad \text{for every observed pair } (i,j).
+$$
 
 A small mathematical statement of an experimentally consequential question.
 
@@ -33,10 +34,12 @@ A small mathematical statement of an experimentally consequential question.
 
 The natural optimization formulation is non-convex:
 
-```
-min  Σ (‖x_i − x_j‖ − y_ij)²
-s.t. d_lower(i,j) ≤ y_ij ≤ d_upper(i,j)
-```
+$$
+\begin{aligned}
+\min_{x,\,y} \quad & \sum_{(i,j)\in E} \bigl(\|x_i - x_j\| - y_{ij}\bigr)^2 \\
+\text{s.t.} \quad & d_{\text{lower}}(i,j) \le y_{ij} \le d_{\text{upper}}(i,j)
+\end{aligned}
+$$
 
 Because of the squared norm, the objective has many local minima. The Spectral Projected Gradient method (SPG, Birgin–Martínez–Raydan) is a fine local solver — it converges quickly when started near a true solution — but the cost surface has many plausible-looking basins and a random initial guess almost always lands in a wrong one.
 
@@ -44,35 +47,37 @@ In practice we don't know the answer, so we can't seed SPG from the truth. We ne
 
 ## Design direction
 
-The trick is to relax the problem until it becomes convex, then snap back. We work with the Gram matrix `G = X^⊤ X` instead of `X` itself. Schoenberg's theorem connects Euclidean distance matrices to positive semidefinite matrices of bounded rank, and the interval constraints — when expressed in `G` — become **linear** in the entries of `G`. The remaining sources of non-convexity are the rank constraint and the original norm. Drop the rank constraint and we're left with a semidefinite program:
+The trick is to relax the problem until it becomes convex, then snap back. We work with the Gram matrix $G = X^\top X$ instead of $X$ itself. Schoenberg's theorem connects Euclidean distance matrices to positive semidefinite matrices of bounded rank, and the interval constraints — when expressed in $G$ — become **linear** in the entries of $G$. The remaining sources of non-convexity are the rank constraint and the original norm. Drop the rank constraint and we're left with a semidefinite program:
 
-```
-min  γ ⟨I, G⟩
-s.t. d_lower²(i,j) ≤ ⟨G, E_ij⟩ ≤ d_upper²(i,j)   ∀(i,j) ∈ E
-     G ⪰ 0,  G·e = 0
-```
+$$
+\begin{aligned}
+\min_{G} \quad & \gamma \langle I,\, G \rangle \\
+\text{s.t.} \quad & d_{\text{lower}}^2(i,j) \;\le\; \langle G,\, E_{ij} \rangle \;\le\; d_{\text{upper}}^2(i,j) \quad \forall\,(i,j)\in E \\
+& G \succeq 0,\quad G\mathbf{e} = 0
+\end{aligned}
+$$
 
-The objective `γ⟨I, G⟩` with `γ < 0` is a rank-reduction heuristic — minimizing the negative trace pulls solutions toward low-dimensional embeddings without forcing it.
+The objective $\gamma\langle I, G\rangle$ with $\gamma < 0$ is a rank-reduction heuristic — minimizing the negative trace pulls solutions toward low-dimensional embeddings without forcing it.
 
-Solving this SDP gives a Gram matrix `G* = QΛQ^⊤`. Take the top-K eigencomponents to get an approximate realization `X̄`, project the per-pair distances back onto their boxes, and feed `(X̄, ȳ)` into SPG as the initial point. The SDP gives a "convex shadow" of the answer; SPG sharpens it.
+Solving this SDP gives a Gram matrix $G^* = Q\Lambda Q^\top$. Take the top-$K$ eigencomponents to get an approximate realization $\bar{X}$, project the per-pair distances back onto their boxes, and feed $(\bar{X}, \bar{y})$ into SPG as the initial point. The SDP gives a "convex shadow" of the answer; SPG sharpens it.
 
 ## Tradeoffs
 
-The SDP relaxation throws away the rank-K constraint to gain convexity. As a result the SDP solution may violate some distance constraints — projecting onto `K` dimensions can stretch some pairs outside their boxes. That's fine: the SDP answer doesn't need to be feasible, it needs to be **near** something feasible. SPG handles the violations.
+The SDP relaxation throws away the rank-$K$ constraint to gain convexity. As a result the SDP solution may violate some distance constraints — projecting onto $K$ dimensions can stretch some pairs outside their boxes. That's fine: the SDP answer doesn't need to be feasible, it needs to be **near** something feasible. SPG handles the violations.
 
-The cost is computational. The SDP is dense and grows quickly with `n`. For 30 atoms it takes 0.3 seconds; for 656 atoms it climbs to about 9 minutes (SDPT3 solver). Beyond that the SDP becomes the bottleneck — divide-and-conquer was flagged as future work, decomposing the protein into overlapping fragments and aligning the pieces.
+The cost is computational. The SDP is dense and grows quickly with $n$. For 30 atoms it takes 0.3 seconds; for 656 atoms it climbs to about 9 minutes (SDPT3 solver). Beyond that the SDP becomes the bottleneck — divide-and-conquer was flagged as future work, decomposing the protein into overlapping fragments and aligning the pieces.
 
 ## Results
 
-Numerical experiments used 12 proteins from the RCSB Protein Data Bank ranging from 30 to 656 atoms. Distance intervals were generated artificially — backbone bonds (N–Cα–C) kept exact, all other pairs within 6 Å became intervals of width Δ = 2/3 Å centered on the true distance.
+Numerical experiments used 12 proteins from the RCSB Protein Data Bank ranging from 30 to 656 atoms. Distance intervals were generated artificially — backbone bonds (N–Cα–C) kept exact, all other pairs within 6 Å became intervals of width $\Delta = 2/3$ Å centered on the true distance.
 
 ### SPG sensitivity to the initial point
 
-To confirm the diagnosis, SPG was run starting from `X_sol + σN(0,1)` — perturbations of the known solution, with `σ ∈ {10⁻², 10, 10²}`. At σ = 10 (a substantial perturbation) the final RMSD was on the order of 1 Å, which is acceptable. At σ = 10² the solver drifted entirely. Without an anchor, SPG is unreliable.
+To confirm the diagnosis, SPG was run starting from $X_{\text{sol}} + \sigma \mathcal{N}(0,1)$ — perturbations of the known solution, with $\sigma \in \{10^{-2},\, 10,\, 10^{2}\}$. At $\sigma = 10$ (a substantial perturbation) the final RMSD was on the order of 1 Å, which is acceptable. At $\sigma = 10^2$ the solver drifted entirely. Without an anchor, SPG is unreliable.
 
 ### Random vs SDP-initialized
 
-The actual test ran SPG from 10 random initial points and compared against a single SPG run started from the SDP relaxation. For proteins around 500 atoms (1A91, 1B4R, 2JS9, 6HKC), SDP-initialized SPG produced **MDE on the order of 10⁻⁵ to 10⁻⁶**, versus 10⁻² for random. The total time (SDP + SPG) was also lower than the average random-init time, because SPG converged in far fewer iterations.
+The actual test ran SPG from 10 random initial points and compared against a single SPG run started from the SDP relaxation. For proteins around 500 atoms (1A91, 1B4R, 2JS9, 6HKC), SDP-initialized SPG produced **MDE on the order of $10^{-5}$ to $10^{-6}$**, versus $10^{-2}$ for random. The total time (SDP + SPG) was also lower than the average random-init time, because SPG converged in far fewer iterations.
 
 <figure>
   <img src="/figures/protein-refinement/initial-point-comparison.png" alt="SDP-initialized SPG versus random-initialized SPG, by metric and protein" />

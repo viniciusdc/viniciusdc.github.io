@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@fontsource-variable/geist";
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -78,3 +79,11 @@
         text-rendering: optimizeLegibility;
     }
 }
+
+/* KaTeX dark-theme overrides */
+.katex { color: inherit; font-size: 1.05em; }
+.katex-display { color: var(--foreground); overflow-x: auto; padding: 0.25em 0; }
+.katex-display > .katex { color: var(--foreground); }
+.katex .mord, .katex .mrel, .katex .mbin, .katex .mop,
+.katex .mopen, .katex .mclose, .katex .mpunct { color: inherit; }
+.katex .mfrac .frac-line { border-bottom-color: currentColor; }
