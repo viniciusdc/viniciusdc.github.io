@@ -4,8 +4,7 @@
       "staticDistDir": "dist",
       "url": [
         "http://localhost/",
-        "http://localhost/notes/",
-        "http://localhost/architecture/",
+        "http://localhost/writing/",
         "http://localhost/projects/",
         "http://localhost/about/"
       ],
