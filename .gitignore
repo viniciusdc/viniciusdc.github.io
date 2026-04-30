@@ -24,7 +24,6 @@ pnpm-debug.log*
 .idea/
 
 # content not yet committed (added via their own PRs)
-src/pages/notes/*/
-src/pages/architecture/*/
+src/pages/writing/*/
 src/pages/projects/*/
 public/figures/

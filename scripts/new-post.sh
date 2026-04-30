@@ -31,12 +31,10 @@ SLUG=$(echo "$TITLE" \
 
 case "$TYPE" in
   note)
-    SECTION="notes"
     TEMPLATE="src/templates/note.mdx"
     TITLE_PLACEHOLDER="Short, specific title describing the exact problem"
     ;;
   arch|architecture)
-    SECTION="architecture"
     TEMPLATE="src/templates/architecture.mdx"
     TITLE_PLACEHOLDER="The decision or system being described"
     ;;
@@ -46,7 +44,7 @@ case "$TYPE" in
     ;;
 esac
 
-DEST="src/pages/${SECTION}/${SLUG}/index.mdx"
+DEST="src/pages/writing/${SLUG}/index.mdx"
 
 if [[ -f "$DEST" ]]; then
   echo "error: ${DEST} already exists"

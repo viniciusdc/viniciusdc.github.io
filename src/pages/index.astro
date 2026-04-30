@@ -13,14 +13,11 @@ function toHref(base: string, path: string) {
   return base + path.replace(/^\.\/[^/]+/, '').replace(/\/index\.(astro|mdx)$/, '/');
 }
 
-const noteAstro = import.meta.glob<PostModule>('./notes/*/index.astro', { eager: true });
-const noteMdx   = import.meta.glob<PostModule>('./notes/*/index.mdx',   { eager: true });
-const archAstro = import.meta.glob<PostModule>('./architecture/*/index.astro', { eager: true });
-const archMdx   = import.meta.glob<PostModule>('./architecture/*/index.mdx',   { eager: true });
+const writingAstro = import.meta.glob<PostModule>('./writing/*/index.astro', { eager: true });
+const writingMdx   = import.meta.glob<PostModule>('./writing/*/index.mdx',   { eager: true });
 
 const allRecent = [
-  ...Object.entries({ ...noteAstro, ...noteMdx }).map(([p, m]) => ({ href: toHref('/notes', p), ...m.metadata! })),
-  ...Object.entries({ ...archAstro, ...archMdx }).map(([p, m]) => ({ href: toHref('/architecture', p), ...m.metadata! })),
+  ...Object.entries({ ...writingAstro, ...writingMdx }).map(([p, m]) => ({ href: toHref('/writing', p), ...m.metadata! })),
 ]
   .filter(p => p.title && p.date)
   .sort((a, b) => b.date!.localeCompare(a.date!));
@@ -48,8 +45,7 @@ const latestNotes = allRecent.slice(1, 4);
           </p>
 
           <div class="flex flex-wrap gap-3 mt-8">
-            <a href="/notes/" class="action-primary">read notes →</a>
-            <a href="/architecture/" class="action">architecture</a>
+            <a href="/writing/" class="action-primary">read writing →</a>
             <a href="/projects/" class="action">projects</a>
           </div>
         </div>

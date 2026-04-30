@@ -23,25 +23,63 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
       <p class="article-subtitle">{subtitle}</p>
     </header>
 
-    <main class="article-content">
-      <slot />
+    <div class="article-body">
+      <main class="article-content">
+        <slot />
 
-      <nav class="article-nav" aria-label="Article navigation">
-        <a href={backHref}>{backLabel}</a>
-        {nextHref && nextLabel && <a href={nextHref}>{nextLabel}</a>}
-      </nav>
-    </main>
+        <nav class="article-nav" aria-label="Article navigation">
+          <a href={backHref}>{backLabel}</a>
+          {nextHref && nextLabel && <a href={nextHref}>{nextLabel}</a>}
+        </nav>
+      </main>
+
+      <aside class="article-toc" aria-label="On this page">
+        <p class="toc-label">on this page</p>
+        <nav id="toc-nav"></nav>
+      </aside>
+    </div>
   </div>
 </Layout>
 
+<script>
+  const headings = document.querySelectorAll<HTMLElement>('.article-content h2, .article-content h3');
+  const nav = document.getElementById('toc-nav');
+
+  if (nav && headings.length > 1) {
+    headings.forEach(h => {
+      if (!h.id) {
+        h.id = h.textContent!.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+      const a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent;
+      a.className = 'toc-link' + (h.tagName === 'H3' ? ' toc-sub' : '');
+      nav.appendChild(a);
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.toc-link').forEach(a => a.classList.remove('toc-active'));
+          const active = nav.querySelector<HTMLElement>(`a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('toc-active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+
+    headings.forEach(h => observer.observe(h));
+  }
+</script>
+
 <style>
   .article-shell {
-    width: min(780px, calc(100% - 44px));
+    width: min(1060px, calc(100% - 44px));
     margin: 0 auto;
   }
   .article-header {
     padding: clamp(64px, 8vw, 108px) 0 44px;
     border-bottom: 1px solid var(--border);
+    max-width: 780px;
   }
   .article-meta {
     color: var(--faint);
@@ -50,9 +88,6 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .article-title {
     font-size: clamp(38px, 5.5vw, 66px);
@@ -69,8 +104,17 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
     line-height: 1.55;
     margin: 0;
   }
+
+  .article-body {
+    display: grid;
+    grid-template-columns: minmax(0, 780px) 180px;
+    gap: 56px;
+    align-items: start;
+  }
+
   .article-content {
     padding: 48px 0 80px;
+    min-width: 0;
   }
   .article-content :global(h2) {
     margin: 40px 0 12px;
@@ -78,6 +122,14 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
     font-weight: 650;
     letter-spacing: -0.03em;
     line-height: 1.2;
+    color: var(--foreground);
+  }
+  .article-content :global(h3) {
+    margin: 28px 0 8px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
     color: var(--foreground);
   }
   .article-content :global(p),
@@ -91,14 +143,12 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
     padding-left: 1.3rem;
     margin: 12px 0 20px;
   }
-  .article-content :global(li + li) {
-    margin-top: 8px;
-  }
+  .article-content :global(li + li) { margin-top: 8px; }
   .article-content :global(code) {
     color: #dfbb7f;
     font-family: var(--font-mono);
     font-size: 0.9em;
-    background: rgba(216, 166, 87, 0.07);
+    background: rgba(216,166,87,0.07);
     padding: 1px 5px;
     border-radius: 4px;
   }
@@ -174,4 +224,45 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
   }
   .article-nav a { color: var(--link); }
   .article-nav a:hover { text-decoration: underline; }
+
+  /* TOC sidebar */
+  .article-toc {
+    position: sticky;
+    top: 86px;
+    padding-top: 48px;
+  }
+  .toc-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--faint);
+    margin: 0 0 14px;
+  }
+  .article-toc :global(#toc-nav) {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .article-toc :global(.toc-link) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 120ms, background 120ms;
+    line-height: 1.4;
+  }
+  .article-toc :global(.toc-sub) {
+    padding-left: 18px;
+    font-size: 10px;
+  }
+  .article-toc :global(.toc-link:hover) { color: var(--foreground); background: rgba(255,255,255,0.04); }
+  .article-toc :global(.toc-active) { color: var(--accent); background: rgba(94,234,212,0.07); }
+
+  @media (max-width: 1060px) {
+    .article-body { grid-template-columns: 1fr; }
+    .article-toc { display: none; }
+  }
 </style>
