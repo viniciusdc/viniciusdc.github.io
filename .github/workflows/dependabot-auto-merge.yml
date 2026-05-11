@@ -20,7 +20,18 @@ jobs:
 
       - name: Enable auto-merge
         if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --squash "$PR_URL"
+        # Retry with backoff: GitHub's GraphQL API occasionally returns a 504
+        # ("Unicorn!" page) on enableAutoMerge — a transient that resolves on retry.
+        run: |
+          for attempt in 1 2 3; do
+            if gh pr merge --auto --squash "$PR_URL"; then
+              exit 0
+            fi
+            echo "::warning::Attempt $attempt to enable auto-merge failed; retrying in $((attempt * 5))s" >&2
+            sleep $((attempt * 5))
+          done
+          echo "::error::Failed to enable auto-merge after 3 attempts" >&2
+          exit 1
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
