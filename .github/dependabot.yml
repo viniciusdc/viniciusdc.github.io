@@ -6,6 +6,13 @@ updates:
       interval: weekly
     commit-message:
       prefix: "ci"
+    labels:
+      - "dependencies"
+    cooldown:
+      default-days: 1
+      semver-major-days: 3
+      semver-minor-days: 2
+      semver-patch-days: 1
 
   - package-ecosystem: npm
     directory: /
@@ -13,6 +20,16 @@ updates:
       interval: weekly
     commit-message:
       prefix: "chore"
+    labels:
+      - "dependencies"
+      - "javascript"
+    # Supply-chain soak: wait N days after a release before opening a PR, so
+    # registry takedowns / CVEs / follow-up patches have time to surface.
+    cooldown:
+      default-days: 1
+      semver-major-days: 7
+      semver-minor-days: 3
+      semver-patch-days: 1
     ignore:
       # Puppeteer ships a bundled Chromium — major bumps need manual testing
       - dependency-name: puppeteer
