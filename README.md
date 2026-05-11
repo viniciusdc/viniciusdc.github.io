@@ -24,22 +24,20 @@ make banner       # regenerate .github/banner.svg
 
 ## Project structure
 
-```
-src/
-├── layouts/           # Layout.astro, ArticleLayout.astro
-├── pages/
-│   ├── index.astro    # homepage
-│   ├── notes/         # field notes       ← gitignored, committed via content PRs
-│   ├── architecture/  # design essays     ← gitignored, committed via content PRs
-│   ├── projects/      # project writeups
-│   ├── debug/         # debugging reference
-│   └── about/
-├── components/ui/     # Badge.astro and other primitives
-├── styles/global.css
-└── templates/         # note.mdx and architecture.mdx starters
-public/                # favicon and static assets
-scripts/               # gen-banner.mjs, new-post.sh
-```
+- `src/layouts/` — `Layout.astro`, `ArticleLayout.astro`
+- `src/pages/`
+  - `index.astro` — homepage
+  - `notes/` — field notes
+  - `architecture/` — design essays
+  - `writing/` — long-form essays *(entries gitignored, committed via content PRs)*
+  - `projects/` — project writeups *(entries gitignored, committed via content PRs)*
+  - `debug/` — debugging reference
+  - `about/`
+- `src/components/ui/` — `Badge.astro` and other primitives
+- `src/styles/global.css`
+- `src/templates/` — `note.mdx` and `architecture.mdx` starters
+- `public/` — favicon and static assets
+- `scripts/` — `gen-banner.mjs`, `new-post.sh`
 
 ## Writing a post
 
@@ -69,6 +67,8 @@ export const metadata = {
 | Build | PR | Compiles the site and uploads `dist/` as an artifact |
 | Spell check | PR | cspell over all `.astro` and `.mdx` source files |
 | Lighthouse | PR | Accessibility, SEO, best-practices ≥ 100 · performance ≥ 90 |
-| Deploy | Push to `gh-pages` | Builds and publishes to GitHub Pages |
+| OSV-Scanner | PR | Scans dependencies against the OSV vulnerability database |
+| Dependabot auto-merge | PR (Dependabot only) | Enables GitHub auto-merge on patch/minor PRs once required checks are green |
+| Deploy | Push to `main` | Builds and publishes to GitHub Pages |
 
-Actions are pinned to commit SHAs. Dependabot opens weekly PRs to keep action SHAs and npm deps current.
+Actions are pinned to commit SHAs. Dependabot opens weekly PRs to keep action SHAs and npm deps current; releases soak for 1–7 days before a PR is opened (per semver bucket), and patch/minor updates auto-merge once CI and OSV-Scanner are green.
