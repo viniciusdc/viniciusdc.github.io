@@ -8,11 +8,10 @@ updates:
       prefix: "ci"
     labels:
       - "dependencies"
+    # GitHub Actions ecosystem only supports `default-days` in cooldown
+    # (Actions don't follow strict semver — most release single major tags).
     cooldown:
-      default-days: 1
-      semver-major-days: 3
-      semver-minor-days: 2
-      semver-patch-days: 1
+      default-days: 2
 
   - package-ecosystem: npm
     directory: /
