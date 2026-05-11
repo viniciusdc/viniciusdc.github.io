@@ -27,3 +27,4 @@ pnpm-debug.log*
 src/pages/writing/*/
 src/pages/projects/*/
 public/figures/
+.pixi/

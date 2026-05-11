@@ -16,6 +16,13 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
 ---
 
 <Layout title={`${title} — Vinicius Cerutti`} description={description ?? subtitle}>
+  <!-- Lightbox -->
+  <div id="lightbox" aria-modal="true" role="dialog" aria-label="Image preview">
+    <button id="lightbox-close" aria-label="Close">✕</button>
+    <img id="lightbox-img" src="" alt="" />
+    <p id="lightbox-caption"></p>
+  </div>
+
   <div class="article-shell">
     <header class="article-header">
       <div class="article-meta">{meta}</div>
@@ -45,6 +52,34 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
   const headings = document.querySelectorAll<HTMLElement>('.article-content h2, .article-content h3');
   const nav = document.getElementById('toc-nav');
 
+  // Lightbox
+  const lightbox = document.getElementById('lightbox')!;
+  const lbImg    = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lbCap    = document.getElementById('lightbox-caption')!;
+  const lbClose  = document.getElementById('lightbox-close')!;
+
+  document.querySelectorAll<HTMLImageElement>('.article-content figure img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent = img.closest('figure')?.querySelector('figcaption')?.textContent ?? '';
+      lbCap.style.display = lbCap.textContent ? '' : 'none';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // TOC
   if (nav && headings.length > 1) {
     headings.forEach(h => {
       if (!h.id) {
@@ -68,7 +103,7 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
     }, { rootMargin: '-10% 0px -80% 0px' });
 
     headings.forEach(h => observer.observe(h));
-  }
+  } // end TOC
 </script>
 
 <style>
@@ -265,4 +300,59 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
     .article-body { grid-template-columns: 1fr; }
     .article-toc { display: none; }
   }
+
+  /* Lightbox */
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(8, 10, 14, 0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox-img {
+    max-width: min(1100px, 96vw);
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    object-fit: contain;
+    cursor: zoom-out;
+  }
+  #lightbox-caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--faint);
+    max-width: min(1100px, 96vw);
+    text-align: center;
+    margin: 0;
+  }
+  #lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: none;
+    border: 1px solid var(--border-strong);
+    color: var(--muted-foreground);
+    font-size: 14px;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 120ms, border-color 120ms;
+  }
+  #lightbox-close:hover { color: var(--foreground); border-color: var(--foreground); }
 </style>

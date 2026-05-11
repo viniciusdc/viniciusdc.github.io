@@ -1,0 +1,16 @@
+[workspace]
+name = "viniciusdc-github-io"
+version = "0.1.0"
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "osx-64", "linux-64", "linux-aarch64"]
+
+[dependencies]
+nodejs = ">=22.12.0,<25"
+
+[tasks]
+install = "npm install"
+dev     = { cmd = "npm run dev",     depends-on = ["install"] }
+build   = { cmd = "npm run build",   depends-on = ["install"] }
+preview = { cmd = "npm run preview", depends-on = ["build"] }
+check   = { cmd = "npm run check",   depends-on = ["install"] }
+banner  = "node scripts/gen-banner.mjs"
