@@ -5,6 +5,8 @@ dist/
 
 # dependencies
 node_modules/
+# pixi-managed dev environment (Node 22 from conda-forge)
+.pixi/
 
 # logs
 npm-debug.log*
