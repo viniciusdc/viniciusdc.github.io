@@ -6,7 +6,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Platform engineering field notes by Vinicius Cerutti" } = Astro.props;
+const { title, description = "A notebook of platform-engineering things, by Vinicius Cerutti." } = Astro.props;
 const pathname = Astro.url.pathname;
 
 const nav = [
@@ -33,21 +33,20 @@ const nav = [
     <title>{title}</title>
   </head>
   <body>
-    <!-- Nav is full-width so sticky works against the viewport, inner div constrains content -->
     <nav
-      class="sticky top-0 z-10 w-full border-b border-border font-mono text-[13px] text-muted-foreground"
-      style="background: rgba(12,14,18,0.82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);"
+      class="sticky top-0 z-10 w-full border-b border-border text-[14px]"
+      style="background: rgba(20,17,13,0.82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); color: var(--muted-foreground);"
       aria-label="Primary navigation"
     >
-      <div class="w-[min(1120px,calc(100%-44px))] mx-auto flex justify-between items-center gap-6 py-6">
-        <a href="/" class="font-bold text-foreground" style="letter-spacing: -0.02em;">
-          vinicius<span style="color: var(--accent);">.dev</span>
+      <div class="w-[min(960px,calc(100%-44px))] mx-auto flex justify-between items-center gap-6 py-5">
+        <a href="/" class="brand">
+          vinicius<span style="color: var(--accent);">'s</span> notebook
         </a>
-        <div class="flex gap-6 flex-wrap">
+        <div class="flex gap-6 flex-wrap" style="font-family: var(--font-mono); font-size: 13px;">
           {nav.map(({ href, label }) => (
             <a
               href={href}
-              class="transition-colors duration-150 hover:text-foreground"
+              class="nav-link transition-colors duration-150"
               aria-current={pathname.startsWith(href) ? "page" : undefined}
             >
               {label}
@@ -60,15 +59,29 @@ const nav = [
     <slot />
 
     <footer class="w-full border-t border-border mt-auto">
-      <div class="w-[min(1120px,calc(100%-44px))] mx-auto flex justify-between gap-5 py-11 font-mono text-[12px]" style="color: var(--faint);">
-        <span>Vinicius Cerutti</span>
-        <span>field notes · architecture · systems debugging</span>
+      <div class="w-[min(720px,calc(100%-44px))] mx-auto flex flex-wrap justify-between gap-3 py-10 text-[13px]"
+           style="color: var(--faint); font-family: var(--font-serif); font-style: italic;">
+        <span>— vinicius cerutti</span>
+        <span>made by hand · sometimes late at night</span>
       </div>
     </footer>
   </body>
 </html>
 
 <style>
+  .brand {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--foreground);
+    letter-spacing: -0.005em;
+  }
+  .nav-link {
+    color: var(--muted-foreground);
+  }
+  .nav-link:hover {
+    color: var(--foreground);
+  }
   /* Active nav link via aria-current */
   nav a[aria-current="page"] {
     color: var(--accent);

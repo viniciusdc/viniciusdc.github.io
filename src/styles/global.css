@@ -1,11 +1,13 @@
 @import "tailwindcss";
 @import "@fontsource-variable/geist";
+@import "@fontsource-variable/lora";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
+    --font-serif: 'Lora Variable', 'Iowan Old Style', Georgia, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     --color-ring: var(--ring);
     --color-input: var(--input);
@@ -27,33 +29,33 @@
     --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-/* Always dark — design intent */
+/* Always dark — warm coffee-black, not navy. */
 :root {
     color-scheme: dark;
-    --background: #0c0e12;
-    --foreground: #eef1f5;
-    --card: #12151b;
-    --card-foreground: #eef1f5;
-    --popover: #171b22;
-    --popover-foreground: #eef1f5;
+    --background: #14110d;
+    --foreground: #f1ebde;
+    --card: #1d1813;
+    --card-foreground: #f1ebde;
+    --popover: #211b15;
+    --popover-foreground: #f1ebde;
     --primary: #d8a657;
-    --primary-foreground: #0c0e12;
-    --secondary: #171b22;
-    --secondary-foreground: #eef1f5;
-    --muted: #171b22;
-    --muted-foreground: #a0a8b4;
+    --primary-foreground: #14110d;
+    --secondary: #1d1813;
+    --secondary-foreground: #f1ebde;
+    --muted: #1d1813;
+    --muted-foreground: #b8a98e;
     --accent: #d8a657;
-    --accent-foreground: #0c0e12;
+    --accent-foreground: #14110d;
     --destructive: oklch(0.704 0.191 22.216);
-    --border: rgba(148, 163, 184, 0.16);
-    --border-strong: rgba(148, 163, 184, 0.28);
-    --input: rgba(148, 163, 184, 0.16);
-    --ring: #9bd1df;
-    --link: #9bd1df;
-    --faint: #697386;
-    --accent-soft: rgba(216, 166, 87, 0.11);
-    --surface-raised: #171b22;
-    --radius: 0.875rem;
+    --border: rgba(220, 200, 170, 0.13);
+    --border-strong: rgba(220, 200, 170, 0.24);
+    --input: rgba(220, 200, 170, 0.13);
+    --ring: #d8a657;
+    --link: #d8a657;
+    --faint: #8a7d68;
+    --accent-soft: rgba(216, 166, 87, 0.10);
+    --surface-raised: #211b15;
+    --radius: 0.625rem;
 }
 
 @layer base {
@@ -61,13 +63,12 @@
         @apply border-border outline-ring/50;
     }
     html {
-        @apply font-sans;
+        @apply font-serif;
         scroll-behavior: smooth;
-        /* Gradient on html so it fills the whole document, not just one viewport */
         background-color: var(--background);
         background-image:
-            radial-gradient(ellipse 80% 50% at 80% -5%, rgba(216, 166, 87, 0.13), transparent),
-            radial-gradient(ellipse 60% 40% at -5% 15%, rgba(155, 209, 223, 0.08), transparent);
+            radial-gradient(ellipse 70% 45% at 85% -8%, rgba(216, 166, 87, 0.14), transparent),
+            radial-gradient(ellipse 50% 35% at -5% 20%, rgba(216, 166, 87, 0.05), transparent);
         background-attachment: scroll;
     }
     body {
@@ -76,5 +77,21 @@
         min-height: 100vh;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+        font-family: var(--font-serif);
     }
+    /* Headings stay sans — keeps a "voice + spine" feel rather than full serif */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-sans);
+    }
+}
+
+/* Notebook section break — used to separate hero from list, post from post */
+.asterism {
+    text-align: center;
+    color: var(--faint);
+    font-family: var(--font-serif);
+    font-size: 20px;
+    letter-spacing: 0.6em;
+    padding: clamp(28px, 4vw, 44px) 0;
+    user-select: none;
 }
