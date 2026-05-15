@@ -14,6 +14,7 @@
     "woff", "woff2", "oklch", "rgb", "rgba", "hsl",
     "clamp", "minmax", "prefers",
     "nebari", "jmespath", "snistrict",
+    "journalctl", "systemd",
     "firewalld", "libvirt", "vagrantfile",
     "syscall", "seccomp", "apparmor", "selinux",
     "etcd", "kube", "kube-proxy", "coredns",

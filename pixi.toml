@@ -1,0 +1,16 @@
+[project]
+name = "blog"
+version = "0.1.0"
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "osx-64", "linux-64"]
+
+[dependencies]
+nodejs = ">=22.12,<23"
+
+[tasks]
+install = "npm install"
+dev     = "npm run dev"
+build   = "npm run build"
+preview = "npm run preview"
+check   = "npm run check"
+spell   = "npm run spell"
