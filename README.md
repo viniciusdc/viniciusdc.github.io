@@ -13,14 +13,18 @@
 
 ## Commands
 
+All `make` targets run through a [pixi](https://pixi.sh)-managed Node 22 environment (from conda-forge), so the system Node version doesn't matter. On first run, pixi solves and installs the env into `.pixi/` (gitignored).
+
 ```sh
-make install      # npm install
+make install      # npm install (inside pixi env)
 make dev          # dev server → http://localhost:4321
 make build        # production build → dist/
 make preview      # serve dist/ locally
 make check        # type-check + spell-check
 make banner       # regenerate .github/banner.svg
 ```
+
+Install pixi once with `curl -fsSL https://pixi.sh/install.sh | bash` (or `brew install pixi`).
 
 ## Project structure
 
