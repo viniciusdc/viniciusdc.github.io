@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Badge from "@/components/ui/Badge.astro";
+import PageRule from "@/components/ui/PageRule.astro";
 
 interface ProjectMeta {
   label: string;
@@ -34,12 +35,7 @@ const projects = Object.entries(modules)
         </p>
       </header>
 
-      <div class="page-rule" aria-hidden="true">
-        <svg viewBox="0 0 200 14" preserveAspectRatio="none">
-          <path d="M 4 7 Q 30 2, 60 7 T 120 7 T 196 7"
-                fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-      </div>
+      <PageRule />
 
       {projects.length === 0 ? (
         <p class="empty-line">Nothing here yet — projects still being moved into the notebook.</p>
@@ -96,18 +92,6 @@ const projects = Object.entries(modules)
     color: var(--muted-foreground);
     margin: 0;
     max-width: 60ch;
-  }
-
-  .page-rule {
-    color: var(--faint);
-    padding: clamp(28px, 4vw, 44px) 0 clamp(24px, 4vw, 40px);
-    opacity: 0.5;
-  }
-  .page-rule svg {
-    display: block;
-    width: clamp(120px, 22vw, 200px);
-    height: 14px;
-    margin: 0 auto;
   }
 
   .empty-line {

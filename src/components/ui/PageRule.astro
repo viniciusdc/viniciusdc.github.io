@@ -1,0 +1,33 @@
+---
+/**
+ * Notebook section divider — three small filled squares in the style
+ * of a Q.E.D. mark (∎ ∎ ∎). Used across the site to break sections.
+ */
+interface Props {
+  align?: 'center' | 'left';
+}
+const { align = 'center' } = Astro.props;
+---
+
+<div class="page-rule" data-align={align} aria-hidden="true">
+  <svg viewBox="0 0 60 6" preserveAspectRatio="xMidYMid meet">
+    <rect x="0"  y="0" width="6" height="6" fill="currentColor" />
+    <rect x="27" y="0" width="6" height="6" fill="currentColor" />
+    <rect x="54" y="0" width="6" height="6" fill="currentColor" />
+  </svg>
+</div>
+
+<style>
+  .page-rule {
+    color: var(--faint);
+    padding: clamp(28px, 4vw, 44px) 0 clamp(24px, 4vw, 40px);
+    opacity: 0.55;
+  }
+  .page-rule svg {
+    display: block;
+    width: clamp(60px, 8vw, 84px);
+    height: 6px;
+  }
+  .page-rule[data-align="center"] svg { margin: 0 auto; }
+  .page-rule[data-align="left"]   svg { margin: 0; }
+</style>
