@@ -2,15 +2,17 @@
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout title="About — Vinicius Cerutti" description="Software engineer working where infrastructure meets product reality.">
-  <div class="w-[min(780px,calc(100%-44px))] mx-auto">
+<Layout title="About — Vinicius's notebook" description="Software engineer working where infrastructure meets product reality.">
+  <div class="w-[min(720px,calc(100%-44px))] mx-auto">
     <main>
-      <header class="page-header">
-        <h1 class="page-title">Vinicius Cerutti</h1>
+
+      <header class="page-head">
+        <p class="page-meta">about</p>
+        <h1 class="page-title">Hi, I'm Vinicius.</h1>
         <p class="page-sub">Software engineer. Bachelor of Mathematics. Working where infrastructure meets product reality.</p>
       </header>
 
-      <div class="bio-body">
+      <div class="bio">
         <p>
           I work across Kubernetes, cloud infrastructure, platform engineering, and systems architecture.
           Most of my day-to-day sits between product needs and low-level infrastructure behavior —
@@ -33,109 +35,143 @@ import Layout from "@/layouts/Layout.astro";
         </p>
 
         <p>
-          This site is a collection of field notes, architecture decisions, and debug archive entries.
-          Mostly written for myself. Useful if you're debugging the same things.
+          This site is a notebook for whatever has my attention — sometimes infrastructure work,
+          often other things. Mostly written for myself; useful if you're chasing similar questions.
         </p>
-
-        <div class="divider"></div>
-
-        <div class="focus-list">
-          <div class="focus-item">
-            <span class="focus-label">focus</span>
-            <span>Platform engineering, Kubernetes, GitOps, identity, ingress, TLS, and infrastructure reliability.</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-label">currently</span>
-            <span>Building platform automation with Go at OpenTeams. Debugging bare-metal K3s clusters. Writing notes for problems worth solving only once.</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-label">background</span>
-            <span>Mathematics and computer science at UFSC. Optimization, distance geometry, protein refinement. GSoC 2020 with conda-forge.</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-label">approach</span>
-            <span>Debug → understand → document. Production friction should produce architecture insight, not just a fix.</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-label">links</span>
-            <span>
-              <a href="https://github.com/viniciusdc" class="profile-link">github.com/viniciusdc</a>
-              <span class="link-sep">·</span>
-              <a href="https://www.linkedin.com/in/vinicius-douglas-530202142/" class="profile-link">linkedin</a>
-              <span class="link-sep">·</span>
-              <a href="https://twitter.com/Ceture_it" class="profile-link">@Ceture_it</a>
-            </span>
-          </div>
-        </div>
       </div>
+
+      <div class="page-rule" aria-hidden="true">
+        <svg viewBox="0 0 200 14" preserveAspectRatio="none">
+          <path d="M 4 7 Q 30 2, 60 7 T 120 7 T 196 7"
+                fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <dl class="meta-list">
+        <div class="meta-row">
+          <dt>focus</dt>
+          <dd>Platform engineering, Kubernetes, GitOps, identity, ingress, TLS, infrastructure reliability.</dd>
+        </div>
+        <div class="meta-row">
+          <dt>currently</dt>
+          <dd>Building platform automation with Go at OpenTeams. Debugging bare-metal K3s clusters. Writing notes for problems worth solving only once.</dd>
+        </div>
+        <div class="meta-row">
+          <dt>background</dt>
+          <dd>Mathematics and computer science at UFSC. Optimization, distance geometry, protein refinement. GSoC 2020 with conda-forge.</dd>
+        </div>
+        <div class="meta-row">
+          <dt>approach</dt>
+          <dd>Debug → understand → document. Production friction should produce architecture insight, not just a fix.</dd>
+        </div>
+        <div class="meta-row">
+          <dt>links</dt>
+          <dd>
+            <a href="https://github.com/viniciusdc" class="profile-link">github.com/viniciusdc</a>
+            <span class="link-sep">·</span>
+            <a href="https://www.linkedin.com/in/vinicius-douglas-530202142/" class="profile-link">linkedin</a>
+            <span class="link-sep">·</span>
+            <a href="https://twitter.com/Ceture_it" class="profile-link">@Ceture_it</a>
+          </dd>
+        </div>
+      </dl>
+
     </main>
   </div>
 </Layout>
 
 <style>
-  .page-header {
-    padding: clamp(64px, 8vw, 108px) 0 clamp(36px, 4vw, 52px);
-    border-bottom: 1px solid var(--border);
+  .page-head {
+    padding: clamp(72px, 9vw, 120px) 0 clamp(28px, 4vw, 40px);
+  }
+  .page-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin: 0 0 22px;
   }
   .page-title {
-    font-size: clamp(36px, 4.5vw, 58px);
-    font-weight: 700;
-    letter-spacing: -0.055em;
-    line-height: 1.0;
-    margin: 0 0 16px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(32px, 4.2vw, 46px);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     color: var(--foreground);
+    margin: 0 0 18px;
   }
   .page-sub {
+    font-family: var(--font-serif);
     font-size: 18px;
-    color: var(--muted-foreground);
     line-height: 1.55;
+    color: var(--muted-foreground);
     margin: 0;
-    max-width: 560px;
+    max-width: 60ch;
   }
-  .bio-body {
-    padding: clamp(36px, 5vw, 56px) 0 clamp(56px, 7vw, 80px);
+
+  .bio {
+    padding: clamp(24px, 4vw, 36px) 0 0;
   }
-  .bio-body p {
+  .bio p {
+    font-family: var(--font-serif);
     font-size: 17px;
-    color: #c3cbd6;
+    color: var(--foreground);
     line-height: 1.75;
     margin: 0 0 22px;
-    max-width: 660px;
+    max-width: 64ch;
   }
-  .divider {
-    border-top: 1px solid var(--border);
-    margin: 36px 0;
+
+  .page-rule {
+    color: var(--faint);
+    padding: clamp(28px, 4vw, 44px) 0 clamp(24px, 4vw, 40px);
+    opacity: 0.5;
   }
-  .focus-list {
+  .page-rule svg {
+    display: block;
+    width: clamp(120px, 22vw, 200px);
+    height: 14px;
+    margin: 0 auto;
+  }
+
+  .meta-list {
+    margin: 0;
+    padding: 0 0 clamp(64px, 8vw, 96px);
     display: grid;
-    gap: 18px;
+    gap: 14px;
   }
-  .focus-item {
+  .meta-row {
     display: grid;
-    grid-template-columns: 90px 1fr;
+    grid-template-columns: 100px 1fr;
     gap: 20px;
-    font-size: 15px;
-    line-height: 1.6;
+    align-items: baseline;
   }
-  .focus-label {
+  .meta-row dt {
     font-family: var(--font-mono);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--faint);
-    padding-top: 2px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
   }
-  .focus-item span:last-child {
+  .meta-row dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 16px;
     color: var(--muted-foreground);
+    line-height: 1.6;
   }
   .profile-link {
-    color: var(--link);
+    color: var(--accent);
     font-family: var(--font-mono);
     font-size: 13px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
   }
-  .profile-link:hover { text-decoration: underline; }
+  .profile-link:hover { text-decoration-thickness: 2px; }
   .link-sep { color: var(--faint); margin: 0 6px; }
   @media (max-width: 520px) {
-    .focus-item { grid-template-columns: 1fr; gap: 4px; }
+    .meta-row { grid-template-columns: 1fr; gap: 4px; }
   }
 </style>
