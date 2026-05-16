@@ -35,12 +35,12 @@ const nav = [
   <body>
     <nav
       class="sticky top-0 z-10 w-full border-b border-border text-[14px]"
-      style="background: rgba(20,17,13,0.82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); color: var(--muted-foreground);"
+      style="background: rgba(26,22,18,0.82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); color: var(--muted-foreground);"
       aria-label="Primary navigation"
     >
       <div class="w-[min(960px,calc(100%-44px))] mx-auto flex justify-between items-center gap-6 py-5">
         <a href="/" class="brand">
-          vinicius<span style="color: var(--accent);">'s</span> notebook
+          vinicius<span class="brand-dev">.dev</span>
         </a>
         <div class="flex gap-6 flex-wrap" style="font-family: var(--font-mono); font-size: 13px;">
           {nav.map(({ href, label }) => (
@@ -72,9 +72,13 @@ const nav = [
   .brand {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 18px;
+    font-size: 19px;
     color: var(--foreground);
     letter-spacing: -0.005em;
+  }
+  .brand-dev {
+    color: var(--accent);
+    font-style: italic;
   }
   .nav-link {
     color: var(--muted-foreground);

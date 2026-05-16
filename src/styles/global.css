@@ -29,32 +29,32 @@
     --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-/* Always dark — warm coffee-black, not navy. */
+/* Always dark — dim café table at 7am, not stark espresso. */
 :root {
     color-scheme: dark;
-    --background: #14110d;
-    --foreground: #f1ebde;
-    --card: #1d1813;
-    --card-foreground: #f1ebde;
-    --popover: #211b15;
-    --popover-foreground: #f1ebde;
-    --primary: #d8a657;
-    --primary-foreground: #14110d;
-    --secondary: #1d1813;
-    --secondary-foreground: #f1ebde;
-    --muted: #1d1813;
-    --muted-foreground: #b8a98e;
-    --accent: #d8a657;
-    --accent-foreground: #14110d;
+    --background: #1a1612;      /* espresso, lifted */
+    --foreground: #ede0c4;      /* foam cream */
+    --card: #241d16;            /* mocha */
+    --card-foreground: #ede0c4;
+    --popover: #2c2218;
+    --popover-foreground: #ede0c4;
+    --primary: #d4a261;         /* caramel — desaturated from #d8a657 */
+    --primary-foreground: #1a1612;
+    --secondary: #241d16;
+    --secondary-foreground: #ede0c4;
+    --muted: #241d16;
+    --muted-foreground: #c8b395; /* oat milk */
+    --accent: #d4a261;
+    --accent-foreground: #1a1612;
     --destructive: oklch(0.704 0.191 22.216);
-    --border: rgba(220, 200, 170, 0.13);
-    --border-strong: rgba(220, 200, 170, 0.24);
-    --input: rgba(220, 200, 170, 0.13);
-    --ring: #d8a657;
-    --link: #d8a657;
-    --faint: #8a7d68;
-    --accent-soft: rgba(216, 166, 87, 0.10);
-    --surface-raised: #211b15;
+    --border: rgba(212, 162, 97, 0.13);
+    --border-strong: rgba(212, 162, 97, 0.24);
+    --input: rgba(212, 162, 97, 0.13);
+    --ring: #d4a261;
+    --link: #d4a261;
+    --faint: #96866d;           /* faded latte */
+    --accent-soft: rgba(212, 162, 97, 0.10);
+    --surface-raised: #2c2218;  /* lifted mocha */
     --radius: 0.625rem;
 }
 
@@ -66,9 +66,10 @@
         @apply font-serif;
         scroll-behavior: smooth;
         background-color: var(--background);
+        /* Slightly lifted warm pools — like lamplight on the table. */
         background-image:
-            radial-gradient(ellipse 70% 45% at 85% -8%, rgba(216, 166, 87, 0.14), transparent),
-            radial-gradient(ellipse 50% 35% at -5% 20%, rgba(216, 166, 87, 0.05), transparent);
+            radial-gradient(ellipse 70% 45% at 85% -8%, rgba(212, 162, 97, 0.12), transparent),
+            radial-gradient(ellipse 50% 35% at -5% 20%, rgba(212, 162, 97, 0.05), transparent);
         background-attachment: scroll;
     }
     body {
