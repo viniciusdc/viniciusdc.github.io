@@ -78,20 +78,27 @@
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
         font-family: var(--font-serif);
+        position: relative;
     }
     /* Headings stay sans — keeps a "voice + spine" feel rather than full serif */
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-sans);
     }
-}
 
-/* Notebook section break — used to separate hero from list, post from post */
-.asterism {
-    text-align: center;
-    color: var(--faint);
-    font-family: var(--font-serif);
-    font-size: 20px;
-    letter-spacing: 0.6em;
-    padding: clamp(28px, 4vw, 44px) 0;
-    user-select: none;
+    /* Very faint paper-grain overlay — adds texture without weight.
+       SVG <feTurbulence> generated inline so no extra HTTP request. */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0.05;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+    @media (prefers-reduced-motion: reduce) {
+        /* Some users find heavy texture distracting; keep it but lower further. */
+        body::before { opacity: 0.025; }
+    }
 }
