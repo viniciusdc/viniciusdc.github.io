@@ -1,0 +1,94 @@
+---
+/**
+ * Compact "at a glance" block for project pages — status, stack, links.
+ * Sits between the article header and the body. Skips any row whose
+ * value is empty so the block only shows what's actually relevant.
+ */
+interface Props {
+  status?: string;
+  stack?: string[];
+  repo?: string;
+  demo?: string;
+}
+const { status, stack, repo, demo } = Astro.props;
+
+function repoLabel(url: string) {
+  return url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+}
+---
+
+<dl class="project-meta">
+  {status && (
+    <div>
+      <dt>status</dt>
+      <dd>{status}</dd>
+    </div>
+  )}
+  {stack && stack.length > 0 && (
+    <div>
+      <dt>stack</dt>
+      <dd>{stack.join(' · ')}</dd>
+    </div>
+  )}
+  {repo && (
+    <div>
+      <dt>repo</dt>
+      <dd><a href={repo}>{repoLabel(repo)}</a></dd>
+    </div>
+  )}
+  {demo && (
+    <div>
+      <dt>demo</dt>
+      <dd><a href={demo}>{repoLabel(demo)}</a></dd>
+    </div>
+  )}
+</dl>
+
+<style>
+  .project-meta {
+    margin: 0 0 32px;
+    padding: 14px 18px;
+    border-left: 2px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 8px 8px 0;
+    display: grid;
+    gap: 6px;
+    max-width: 60ch;
+  }
+  .project-meta > div {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .project-meta dt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin: 0;
+    padding-top: 2px;
+  }
+  .project-meta dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--foreground);
+  }
+  .project-meta a {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .project-meta a:hover {
+    text-decoration-thickness: 2px;
+  }
+  @media (max-width: 520px) {
+    .project-meta > div { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>
