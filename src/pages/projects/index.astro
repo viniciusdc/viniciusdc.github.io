@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Badge from "@/components/ui/Badge.astro";
+import PageRule from "@/components/ui/PageRule.astro";
 
 interface ProjectMeta {
   label: string;
@@ -21,90 +22,136 @@ const projects = Object.entries(modules)
   .map(([path, m]) => ({ href: toHref(path), ...m.metadata! }));
 ---
 
-<Layout title="Projects — Vinicius Cerutti" description="Selected systems, tools, and platform work.">
-  <div class="w-[min(1120px,calc(100%-44px))] mx-auto">
+<Layout title="Projects — Vinicius's notebook" description="Systems, tools, and platform work — written up as engineering notes rather than portfolio cards.">
+  <div class="w-[min(880px,calc(100%-44px))] mx-auto">
     <main>
-      <header class="page-header">
+
+      <header class="page-head">
+        <p class="page-meta">projects</p>
         <h1 class="page-title">Systems, tools, and platform work.</h1>
-        <p class="page-sub">Presented as engineering systems rather than portfolio cards.</p>
+        <p class="page-sub">
+          Written up as engineering notes rather than portfolio cards.
+          Each one is a thing I built or worked on long enough to have opinions about.
+        </p>
       </header>
 
-      <section class="py-[clamp(36px,4vw,52px)]">
-        <div class="grid grid-cols-2 gap-3.5">
+      <PageRule />
+
+      {projects.length === 0 ? (
+        <p class="empty-line">Nothing here yet — projects still being moved into the notebook.</p>
+      ) : (
+        <ol class="entry-list">
           {projects.map(({ href, label, title, description, tags }) => (
-              <a href={href} class="project-card is-link">
-                <div>
-                  <div class="card-label">{label}</div>
-                  <h2 class="card-title">{title}</h2>
-                  <p class="card-desc">{description}</p>
-                </div>
-                <div class="flex flex-wrap gap-2 mt-5">
-                  {tags.map(t => <Badge variant="outline">{t}</Badge>)}
-                </div>
+            <li class="entry">
+              <a href={href} class="entry-link">
+                <p class="entry-meta">{label}</p>
+                <h2 class="entry-title">{title}</h2>
+                <p class="entry-desc">{description}</p>
+                {tags?.length > 0 && (
+                  <div class="entry-tags">
+                    {tags.map(t => <Badge variant="outline">{t}</Badge>)}
+                  </div>
+                )}
               </a>
+            </li>
           ))}
-        </div>
-      </section>
+        </ol>
+      )}
+
     </main>
   </div>
 </Layout>
 
 <style>
-  .page-header {
-    padding: clamp(64px, 8vw, 108px) 0 clamp(40px, 5vw, 60px);
-    border-bottom: 1px solid var(--border);
-    max-width: 820px;
+  .page-head {
+    padding: clamp(72px, 9vw, 120px) 0 clamp(32px, 4vw, 48px);
+    max-width: 640px;
   }
-  .page-title {
-    font-size: clamp(42px, 6vw, 76px);
-    font-weight: 700;
-    letter-spacing: -0.065em;
-    line-height: 0.97;
-    margin: 0 0 20px;
-    color: var(--foreground);
-  }
-  .page-sub {
-    font-size: 19px;
-    color: var(--muted-foreground);
-    line-height: 1.55;
-    margin: 0;
-    max-width: 680px;
-  }
-  .project-card {
-    padding: 26px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: rgba(18,21,27,0.78);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-decoration: none;
-    transition: border-color 160ms, background 160ms;
-  }
-  .project-card.is-link:hover { border-color: var(--border-strong); background: var(--surface-raised); }
-  .card-label {
+  .page-meta {
     font-family: var(--font-mono);
     font-size: 11px;
+    color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--faint);
-    margin-bottom: 14px;
+    letter-spacing: 0.14em;
+    margin: 0 0 22px;
   }
-  .card-title {
-    font-size: clamp(20px, 2.2vw, 26px);
-    font-weight: 650;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+  .page-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(32px, 4.2vw, 46px);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     color: var(--foreground);
-    margin: 0 0 10px;
+    margin: 0 0 22px;
   }
-  .card-desc {
-    font-size: 15px;
-    color: var(--muted-foreground);
+  .page-sub {
+    font-family: var(--font-serif);
+    font-size: 18px;
     line-height: 1.6;
+    color: var(--muted-foreground);
     margin: 0;
+    max-width: 60ch;
   }
-  @media (max-width: 780px) {
-    .grid { grid-template-columns: 1fr !important; }
+
+  .empty-line {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--muted-foreground);
+    padding: 0 0 clamp(64px, 8vw, 100px);
+  }
+
+  .entry-list {
+    list-style: none;
+    padding: 0 0 clamp(64px, 8vw, 96px);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .entry { margin: 0; }
+  .entry-link {
+    display: block;
+    padding: 22px 18px;
+    margin: 0 -18px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 180ms ease, transform 180ms ease;
+  }
+  .entry-link:hover {
+    background: rgba(212, 162, 97, 0.04);
+    transform: translateX(2px);
+  }
+  .entry-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+  .entry-title {
+    font-family: var(--font-sans);
+    font-size: clamp(20px, 2.4vw, 24px);
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    margin: 0 0 8px;
+  }
+  .entry-desc {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+    margin: 0 0 14px;
+    max-width: 60ch;
+  }
+  .entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 </style>

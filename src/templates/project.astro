@@ -1,0 +1,66 @@
+---
+// TEMPLATE: Project page
+// Copy to: src/pages/projects/<slug>/index.astro
+// Run:     make post TITLE="..." TYPE=project
+//
+// Checklist before publishing:
+//   [ ] Title is concrete — names the thing, not the category
+//   [ ] metadata.label is one of: system · tool · operator · library · script
+//   [ ] metadata.tags are short, lowercase, useful for filtering on /projects/
+//   [ ] metadata.status is honest (don't say "active" if you haven't touched it in a year)
+//   [ ] metadata.repo / metadata.demo set if applicable; otherwise leave as ""
+//   [ ] No placeholder text remains
+
+export const metadata = {
+  label: "system",                // system · tool · operator · library · script
+  title: "Project name",
+  description: "One sentence: what it is and why it matters.",
+  tags: ["go", "kubernetes"],     // used by /projects/ listing
+  status: "active",               // active · dormant · archived
+  repo: "",                       // optional: full URL
+  demo: "",                       // optional: full URL
+};
+
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+import ProjectMeta from "@/components/ui/ProjectMeta.astro";
+---
+
+<ArticleLayout
+  title={metadata.title}
+  meta={metadata.label}
+  subtitle={metadata.description}
+  backHref="/projects/"
+  backLabel="← projects"
+>
+
+<ProjectMeta
+  status={metadata.status}
+  stack={metadata.tags}
+  repo={metadata.repo}
+  demo={metadata.demo}
+/>
+
+## What it is
+
+<!-- One paragraph. Describe the thing concretely. Skip marketing language. -->
+
+## Why I built it
+
+<!-- Context. What was missing or broken that made you reach for this? -->
+<!-- What did you try first that didn't work, and why? -->
+
+## How it works
+
+<!-- The interesting bits — pick 2-3 design decisions or implementation -->
+<!-- details worth explaining, not a full architecture diagram. -->
+
+## What I learned
+
+<!-- Tradeoffs, mistakes, things you'd do differently. Be specific. -->
+
+## Status
+
+<!-- Where it is now: deployed, maintained, abandoned, replaced by something -->
+<!-- else. If you'd recommend or warn off others, say so. -->
+
+</ArticleLayout>
