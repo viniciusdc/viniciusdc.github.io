@@ -1,0 +1,52 @@
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
+export const metadata = {
+  title: "Beginning again",
+  date: "2026-05-18",
+  tag: "meta",
+  description: "Notes on starting a notebook — what's here, what isn't, what I'm trying not to do.",
+};
+
+<ArticleLayout
+  title={metadata.title}
+  meta={`${metadata.date} · ${metadata.tag}`}
+  subtitle={metadata.description}
+  backHref="/writing/"
+  backLabel="writing"
+>
+
+I've started a blog several times. Most attempts stalled within a few months. Partly because I picked a niche too narrow — *Kubernetes field notes* was the last one — and partly because I kept forgetting what writing is actually *for*.
+
+For me it isn't for an audience. It's for thinking.
+
+I'll have a vague intuition about something, sit down to write a paragraph, and ten minutes in realize the intuition didn't survive contact with sentences. The diagram I had in my head turns out not to compile. The reading I was working from doesn't quite say what I thought it said. That's the value: writing finds the gaps that thinking-in-your-head papers over.
+
+So this notebook is a different premise from the ones before. It's for me. Kept in public because writing for a vague hypothetical *someone* forces a level of clarity that private notes never reach — but the audience is incidental.
+
+## What lives here
+
+Mostly whatever has my attention.
+
+Software, often — Kubernetes most of my paid work: bare-metal clusters, identity, GPU runtimes, the small failures that take a week to find. But also AI papers I'm chewing on, math I keep wandering back to (my degree is in applied math; I haven't found a way to leave it alone), design ideas, games that won't leave me alone, the occasional philosophical thing without a clean answer.
+
+The connective tissue isn't a topic. It's me.
+
+## What I'm trying not to do
+
+Wait for things to be finished. A lot of what shows up here will be drafts I want to come back to. Some of it will be wrong — I'll either fix the post or leave a note saying so — and that's fine. Waiting for perfect is how I lost the last several years of writing I meant to do.
+
+Chase an audience either. If you're here, hi, and thank you. But the bar for whether a post exists is whether I learned something from writing it, not whether anyone else learned something reading it.
+
+## What I'm trying to do
+
+Write small. Short notes. Reactions. Sketches of ideas. Not every entry needs to be an essay.
+
+Write honestly. If I don't understand something, I want the post to show that. If I change my mind later, I want the next post to show that too. The pretense of always-having-known is exhausting and not even useful.
+
+Write more often than I think is sensible.
+
+## See you in a bit
+
+That's it for now. If you find something worth reading here — or worth correcting — please tell me.
+
+</ArticleLayout>
