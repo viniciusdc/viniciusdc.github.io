@@ -10,10 +10,11 @@
     "keycloak", "oidc", "oauth", "saml", "jwt", "jwks",
     "fastapi", "pydantic", "scrapy", "uvicorn",
     "vinicius", "cerutti", "Ceture", "viniciusdc", "Catarina", "UFSC",
-    "astro", "tailwind", "shadcn", "fontsource", "lhci",
+    "astro", "tailwind", "shadcn", "fontsource", "lhci", "lightbox",
     "woff", "woff2", "oklch", "rgb", "rgba", "hsl",
     "clamp", "minmax", "prefers",
     "nebari", "jmespath", "snistrict",
+    "journalctl", "systemd",
     "firewalld", "libvirt", "vagrantfile",
     "syscall", "seccomp", "apparmor", "selinux",
     "etcd", "kube", "kube-proxy", "coredns",
@@ -39,9 +40,11 @@
     "semidefinite", "semidefiniteness",
     "Barzilai", "Borwein",
     "nonmonotone", "GLL",
-    "Hessian", "quasi-Newton",
+    "Hessian", "quasi-Newton", "eigencomponents",
+    "mathbb", "mathbf", "mathcal", "bigl", "bigr",
     "NMR", "PDB", "crystallography",
-    "Gram"
+    "Gram", "Schoenberg", "Wüthrich", "ChimeraX", "PIBIC", "RMSD", "MDE", "RCSB",
+    "PGDm", "Gonçalves", "Birgin", "Martínez", "Raydan", "UCSF"
   ],
   "ignorePaths": [
     "node_modules/**",

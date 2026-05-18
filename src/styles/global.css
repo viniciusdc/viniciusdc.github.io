@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/lora";
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -103,3 +104,12 @@
         body::before { opacity: 0.025; }
     }
 }
+
+/* KaTeX — dark-theme overrides so math sits in the warm palette
+   instead of KaTeX's default black/white. */
+.katex { color: inherit; font-size: 1.05em; }
+.katex-display { color: var(--foreground); overflow-x: auto; padding: 0.25em 0; }
+.katex-display > .katex { color: var(--foreground); }
+.katex .mord, .katex .mrel, .katex .mbin, .katex .mop,
+.katex .mopen, .katex .mclose, .katex .mpunct { color: inherit; }
+.katex .mfrac .frac-line { border-bottom-color: currentColor; }

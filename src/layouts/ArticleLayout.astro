@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageRule from "@/components/ui/PageRule.astro";
+import ImageLightbox from "@/components/ui/ImageLightbox.astro";
 
 interface Props {
   title: string;
@@ -17,6 +18,7 @@ const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextL
 ---
 
 <Layout title={`${title} — Vinicius's notebook`} description={description ?? subtitle}>
+  <ImageLightbox />
   <div class="article-shell">
     <header class="article-header">
       <p class="article-meta">{meta}</p>
