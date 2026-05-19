@@ -3,18 +3,72 @@ import Layout from "@/layouts/Layout.astro";
 import PageRule from "@/components/ui/PageRule.astro";
 import ImageLightbox from "@/components/ui/ImageLightbox.astro";
 
-interface Props {
-  title: string;
+/**
+ * Two ways to use this layout:
+ *
+ * 1. As an Astro layout reference from MDX/MD frontmatter:
+ *    ---
+ *    layout: '@/layouts/ArticleLayout.astro'
+ *    title: ...
+ *    date: 2026-05-18
+ *    tag: meta
+ *    description: ...
+ *    ---
+ *    The body markdown renders into the layout's <slot />. `meta` is
+ *    auto-composed as "date · tag" when both are present.
+ *
+ * 2. As a wrapping component from an `.astro` page that needs JSX/props:
+ *    <ArticleLayout title="..." meta="..." subtitle="..." backHref="/projects/" ...>
+ *      <h2>...</h2>
+ *    </ArticleLayout>
+ */
+interface Frontmatter {
+  title?: string;
   description?: string;
-  meta: string;
-  subtitle: string;
-  backHref: string;
-  backLabel: string;
+  date?: string;
+  tag?: string;
+  subtitle?: string;
+  meta?: string;
+  backHref?: string;
+  backLabel?: string;
   nextHref?: string;
   nextLabel?: string;
 }
 
-const { title, description, meta, subtitle, backHref, backLabel, nextHref, nextLabel } = Astro.props;
+interface Props extends Frontmatter {
+  frontmatter?: Frontmatter;
+}
+
+const fm = Astro.props.frontmatter ?? {};
+const title       = Astro.props.title       ?? fm.title       ?? "Untitled";
+const description = Astro.props.description ?? fm.description;
+const subtitle    = Astro.props.subtitle    ?? fm.subtitle    ?? description ?? "";
+const backHref    = Astro.props.backHref    ?? fm.backHref    ?? "/writing/";
+const backLabel   = Astro.props.backLabel   ?? fm.backLabel   ?? "writing";
+const nextHref    = Astro.props.nextHref    ?? fm.nextHref;
+const nextLabel   = Astro.props.nextLabel   ?? fm.nextLabel;
+
+// YAML auto-parses ISO dates into Date objects. Normalize to YYYY-MM-DD
+// so authors can write `date: 2026-05-18` without remembering to quote it.
+// `instanceof Date` can fail across realms; duck-type instead.
+function asDateString(d: unknown): string | undefined {
+  if (!d) return undefined;
+  if (typeof (d as { toISOString?: () => string }).toISOString === "function") {
+    return (d as Date).toISOString().slice(0, 10);
+  }
+  // Already a string — strip any trailing ISO time component just in case.
+  return String(d).slice(0, 10);
+}
+
+const dateStr = asDateString(fm.date);
+
+// Compose `meta` if not explicit:
+//   posts:    "YYYY-MM-DD · tag"
+//   projects: "label"
+const explicitMeta = Astro.props.meta ?? fm.meta;
+const labelOrTag = fm.tag ?? (fm as { label?: string }).label;
+const composedMeta = [dateStr, labelOrTag].filter(Boolean).join(" · ");
+const meta = explicitMeta ?? composedMeta;
 ---
 
 <Layout title={`${title} — Vinicius's notebook`} description={description ?? subtitle}>

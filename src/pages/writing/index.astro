@@ -4,7 +4,8 @@ import PageRule from "@/components/ui/PageRule.astro";
 
 interface PostMeta  { title: string; date?: string; tag: string; description: string; }
 interface DebugMeta { label: string; title: string; description: string; tags: string[]; href?: string; }
-interface PostModule { metadata?: PostMeta | DebugMeta; }
+// Accept either `frontmatter` (YAML at the top of .mdx) or `metadata` (export const).
+interface PostModule { metadata?: PostMeta | DebugMeta; frontmatter?: PostMeta | DebugMeta; }
 
 function toHref(path: string) {
   return '/writing' + path.replace(/^\.\//, '/').replace(/\/index\.(astro|mdx)$/, '/');
@@ -19,14 +20,24 @@ const allModules = {
   ...import.meta.glob<PostModule>('./*/index.mdx',   { eager: true }),
 };
 
+// YAML auto-parses ISO dates into Date objects; normalize so sort/compare works.
+// `instanceof Date` can fail across realms; duck-type instead.
+function asDateString(d: unknown): string | undefined {
+  if (!d) return undefined;
+  if (typeof (d as { toISOString?: () => string }).toISOString === "function") {
+    return (d as Date).toISOString().slice(0, 10);
+  }
+  return String(d).slice(0, 10);
+}
+
 const entries = Object.entries(allModules)
-  .filter(([, m]) => m.metadata)
-  .map(([path, m]) => {
-    const meta = m.metadata!;
+  .map(([path, m]) => [path, m.frontmatter ?? m.metadata] as const)
+  .filter((tuple): tuple is readonly [string, PostMeta | DebugMeta] => tuple[1] != null)
+  .map(([path, meta]) => {
     if (isDebug(meta)) {
-      return { href: meta.href ?? toHref(path), title: meta.title, date: undefined, tag: meta.tags[0] ?? 'debugging', description: meta.description };
+      return { href: meta.href ?? toHref(path), title: meta.title, date: undefined as string | undefined, tag: meta.tags[0] ?? 'debugging', description: meta.description };
     }
-    return { href: toHref(path), title: meta.title, date: meta.date, tag: meta.tag, description: meta.description };
+    return { href: toHref(path), title: meta.title, date: asDateString(meta.date), tag: meta.tag, description: meta.description };
   })
   .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
 
