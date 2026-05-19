@@ -62,9 +62,12 @@ function asDateString(d: unknown): string | undefined {
 
 const dateStr = asDateString(fm.date);
 
-// Compose `meta` if not explicit — date · tag is the convention.
+// Compose `meta` if not explicit:
+//   posts:    "YYYY-MM-DD · tag"
+//   projects: "label"
 const explicitMeta = Astro.props.meta ?? fm.meta;
-const composedMeta = [dateStr, fm.tag].filter(Boolean).join(" · ");
+const labelOrTag = fm.tag ?? (fm as { label?: string }).label;
+const composedMeta = [dateStr, labelOrTag].filter(Boolean).join(" · ");
 const meta = explicitMeta ?? composedMeta;
 ---
 
