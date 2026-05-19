@@ -1,39 +1,35 @@
-import ArticleLayout from "@/layouts/ArticleLayout.astro";
-import ProjectMeta from "@/components/ui/ProjectMeta.astro";
+---
+layout: '@/layouts/ArticleLayout.astro'
+title: Project name
+description: 'One sentence: what it is and why it matters.'
+label: system
+tags: [go, kubernetes]
+status: active
+repo: ''
+demo: ''
+meta: system
+backHref: /projects/
+backLabel: projects
+---
 
-export const metadata = {
-  label: "system",                // system · tool · operator · library · script
-  title: "Project name",
-  description: "One sentence: what it is and why it matters.",
-  tags: ["go", "kubernetes"],     // used by /projects/ listing
-  status: "active",               // active · dormant · archived
-  repo: "",                       // optional: full URL
-  demo: "",                       // optional: full URL
-};
+import ProjectMeta from "@/components/ui/ProjectMeta.astro";
 
 {/*
   Checklist before publishing:
   [ ] Title is concrete — names the thing, not the category
-  [ ] metadata.label is one of: system · tool · operator · library · script
-  [ ] metadata.tags are short, lowercase, useful for filtering on /projects/
-  [ ] metadata.status is honest (don't say "active" if you haven't touched it in a year)
-  [ ] metadata.repo / metadata.demo set if applicable; otherwise leave as ""
+  [ ] label is one of: system · tool · operator · library · script
+  [ ] tags are short, lowercase, useful for filtering on /projects/
+  [ ] status is honest (don't say "active" if you haven't touched it in a year)
+  [ ] repo / demo set if applicable; otherwise leave as ""
+  [ ] Update `meta:` if you change `label` (it's what shows above the title)
   [ ] No placeholder text remains
 */}
 
-<ArticleLayout
-  title={metadata.title}
-  meta={metadata.label}
-  subtitle={metadata.description}
-  backHref="/projects/"
-  backLabel="← projects"
->
-
 <ProjectMeta
-  status={metadata.status}
-  stack={metadata.tags}
-  repo={metadata.repo}
-  demo={metadata.demo}
+  status={frontmatter.status}
+  stack={frontmatter.tags}
+  repo={frontmatter.repo}
+  demo={frontmatter.demo}
 />
 
 ## What it is
@@ -58,5 +54,3 @@ export const metadata = {
 
 {/* Where it is now: deployed, maintained, abandoned, replaced by something else.
     If you'd recommend or warn off others, say so. */}
-
-</ArticleLayout>

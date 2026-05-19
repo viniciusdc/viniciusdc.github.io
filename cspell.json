@@ -10,7 +10,7 @@
     "keycloak", "oidc", "oauth", "saml", "jwt", "jwks",
     "fastapi", "pydantic", "scrapy", "uvicorn",
     "vinicius", "cerutti", "Ceture", "viniciusdc", "Catarina", "UFSC",
-    "astro", "tailwind", "shadcn", "fontsource", "lhci", "lightbox",
+    "astro", "tailwind", "shadcn", "fontsource", "lhci", "lightbox", "frontmatter",
     "woff", "woff2", "oklch", "rgb", "rgba", "hsl",
     "clamp", "minmax", "prefers",
     "nebari", "jmespath", "snistrict",

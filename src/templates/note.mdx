@@ -1,29 +1,19 @@
-import ArticleLayout from "@/layouts/ArticleLayout.astro";
-
-export const metadata = {
-  title: "Short, specific title describing the exact problem",
-  date: "YYYY-MM-DD",
-  tag: "field note",
-  description: "One sentence. What does this note explain and why does it matter.",
-};
+---
+layout: '@/layouts/ArticleLayout.astro'
+title: Short, specific title describing the exact problem
+date: YYYY-MM-DD
+tag: field note
+description: One sentence. What does this note explain and why does it matter.
+---
 
 {/*
   Checklist before publishing:
   [ ] Title is specific — describes the exact problem, not just the area
-  [ ] metadata.date is accurate (YYYY-MM-DD)
-  [ ] metadata.tag is one of: field note · debugging · security · architecture · platform
-  [ ] metadata.description is one sentence — states what the note explains
-  [ ] backHref/nextHref links are correct
+  [ ] date is accurate (YYYY-MM-DD)
+  [ ] tag is one of: field note · debugging · security · architecture · platform
+  [ ] description is one sentence — states what the note explains
   [ ] No placeholder text remains
 */}
-
-<ArticleLayout
-  title={metadata.title}
-  meta={`${metadata.date} · ${metadata.tag}`}
-  subtitle={metadata.description}
-  backHref="/writing/"
-  backLabel="← writing"
->
 
 ## Background
 
@@ -48,5 +38,3 @@ error message or log output here
 ```bash
 # commands here
 ```
-
-</ArticleLayout>

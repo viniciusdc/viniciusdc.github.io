@@ -10,7 +10,10 @@ interface PostMeta {
   tag: string;
   description: string;
 }
-interface PostModule { metadata?: PostMeta; }
+// `.mdx`/`.md` files with YAML frontmatter expose it as `frontmatter`.
+// `.astro` files (and `.mdx` files using `export const metadata`) expose `metadata`.
+// Accept either so we can mix patterns during the migration.
+interface PostModule { metadata?: PostMeta; frontmatter?: PostMeta; }
 
 function toHref(base: string, path: string) {
   return base + path.replace(/^\.\/[^/]+/, '').replace(/\/index\.(astro|mdx)$/, '/');
@@ -19,9 +22,21 @@ function toHref(base: string, path: string) {
 const writingAstro = import.meta.glob<PostModule>('./writing/*/index.astro', { eager: true });
 const writingMdx   = import.meta.glob<PostModule>('./writing/*/index.mdx',   { eager: true });
 
-const allRecent = [
-  ...Object.entries({ ...writingAstro, ...writingMdx }).map(([p, m]) => ({ href: toHref('/writing', p), ...m.metadata! })),
-]
+// YAML auto-parses ISO dates into Date objects; normalize so sort/compare works.
+// `instanceof Date` can fail across realms; duck-type instead.
+function asDateString(d: unknown): string | undefined {
+  if (!d) return undefined;
+  if (typeof (d as { toISOString?: () => string }).toISOString === "function") {
+    return (d as Date).toISOString().slice(0, 10);
+  }
+  return String(d).slice(0, 10);
+}
+
+const allRecent = Object.entries({ ...writingAstro, ...writingMdx })
+  .map(([p, m]) => {
+    const data = m.frontmatter ?? m.metadata ?? {} as PostMeta;
+    return { href: toHref('/writing', p), ...data, date: asDateString(data.date) };
+  })
   .filter(p => p.title && p.date)
   .sort((a, b) => b.date!.localeCompare(a.date!));
 

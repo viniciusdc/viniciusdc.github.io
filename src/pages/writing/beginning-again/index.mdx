@@ -1,19 +1,10 @@
-import ArticleLayout from "@/layouts/ArticleLayout.astro";
-
-export const metadata = {
-  title: "Beginning again",
-  date: "2026-05-18",
-  tag: "meta",
-  description: "Notes on starting a notebook — what's here, what isn't, what I'm trying not to do.",
-};
-
-<ArticleLayout
-  title={metadata.title}
-  meta={`${metadata.date} · ${metadata.tag}`}
-  subtitle={metadata.description}
-  backHref="/writing/"
-  backLabel="writing"
->
+---
+layout: '@/layouts/ArticleLayout.astro'
+title: Beginning again
+date: 2026-05-18
+tag: meta
+description: "Notes on starting a notebook — what's here, what isn't, what I'm trying not to do."
+---
 
 I've started a blog several times. Most attempts stalled within a few months. Partly because I picked a niche too narrow — *Kubernetes field notes* was the last one — and partly because I kept forgetting what writing is actually *for*.
 
@@ -48,5 +39,3 @@ Write more often than I think is sensible.
 ## See you in a bit
 
 That's it for now. If you find something worth reading here — or worth correcting — please tell me.
-
-</ArticleLayout>

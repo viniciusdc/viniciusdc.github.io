@@ -1,28 +1,19 @@
-import ArticleLayout from "@/layouts/ArticleLayout.astro";
-
-export const metadata = {
-  title: "The decision or system being described",
-  date: "YYYY-MM-DD",
-  tag: "architecture",
-  description: "What this essay argues or explains — one sentence.",
-};
+---
+layout: '@/layouts/ArticleLayout.astro'
+title: The decision or system being described
+date: YYYY-MM-DD
+tag: architecture
+description: What this essay argues or explains — one sentence.
+---
 
 {/*
   Checklist before publishing:
   [ ] Title frames the decision, not just the component ("X as Y" or "Why we shaped X this way")
-  [ ] metadata.description describes what the essay argues or explains
-  [ ] metadata.tag matches the area: operator design · state systems · platform · reliability
+  [ ] description describes what the essay argues or explains
+  [ ] tag matches the area: operator design · state systems · platform · reliability
   [ ] Sections flow: context → constraint → decision → tradeoffs
   [ ] No placeholder text remains
 */}
-
-<ArticleLayout
-  title={metadata.title}
-  meta={`${metadata.date} · ${metadata.tag}`}
-  subtitle={metadata.description}
-  backHref="/writing/"
-  backLabel="← writing"
->
 
 ## Context
 
@@ -43,5 +34,3 @@ export const metadata = {
 ## Boundaries
 
 {/* Where does this design stop? What's explicitly out of scope? */}
-
-</ArticleLayout>
