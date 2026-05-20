@@ -44,7 +44,7 @@
     --secondary: #181a25;
     --secondary-foreground: #d8d3c2;
     --muted: #181a25;
-    --muted-foreground: #a8a08c; /* warm muted */
+    --muted-foreground: #b8a98e; /* warm muted — bumped for AAA contrast on navy */
     --accent: #d4a261;
     --accent-foreground: #0f111a;
     --destructive: oklch(0.704 0.191 22.216);
@@ -53,7 +53,7 @@
     --input: rgba(212, 162, 97, 0.10);
     --ring: #d4a261;
     --link: #d4a261;
-    --faint: #6a6859;
+    --faint: #928a78;            /* warm faint — needs ≥4.5:1 on the deep navy bg */
     --accent-soft: rgba(212, 162, 97, 0.10);
     --surface-raised: #1f2230;
     --radius: 0.625rem;
