@@ -8,15 +8,6 @@ repo: https://github.com/regro/cf-scripts
 demo: ''
 ---
 
-import ProjectMeta from "@/components/ui/ProjectMeta.astro";
-
-<ProjectMeta
-  status={frontmatter.status}
-  stack={frontmatter.tags}
-  repo={frontmatter.repo}
-  demo={frontmatter.demo}
-/>
-
 ## What it is
 
 [Conda-forge](https://numfocus.org/project/conda-forge) is a community effort that provides conda packages for a wide range of scientific software — a NumFOCUS umbrella project, specializing in the hard-to-build packages that arise in scientific computing. The whole ecosystem is structured around automation, and the **auto-tick bot** plays a central role: it tracks every feedstock, finds new upstream releases, and opens PRs to bump versions across the ecosystem.

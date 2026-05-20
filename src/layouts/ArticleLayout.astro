@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import PageRule from "@/components/ui/PageRule.astro";
 import ImageLightbox from "@/components/ui/ImageLightbox.astro";
+import ProjectMeta from "@/components/ui/ProjectMeta.astro";
 
 /**
  * Two ways to use this layout:
@@ -33,6 +34,13 @@ interface Frontmatter {
   backLabel?: string;
   nextHref?: string;
   nextLabel?: string;
+  // Project-page fields. When any of these is present, the layout
+  // auto-renders the ProjectMeta block at the top of the body.
+  label?: string;
+  status?: string;
+  tags?: string[];
+  repo?: string;
+  demo?: string;
 }
 
 interface Props extends Frontmatter {
@@ -66,9 +74,14 @@ const dateStr = asDateString(fm.date);
 //   posts:    "YYYY-MM-DD · tag"
 //   projects: "label"
 const explicitMeta = Astro.props.meta ?? fm.meta;
-const labelOrTag = fm.tag ?? (fm as { label?: string }).label;
+const labelOrTag = fm.tag ?? fm.label;
 const composedMeta = [dateStr, labelOrTag].filter(Boolean).join(" · ");
 const meta = explicitMeta ?? composedMeta;
+
+// Auto-render ProjectMeta when frontmatter carries project-shaped fields
+// (label/status/repo/demo). Posts won't trigger it; project pages get
+// it for free without writing the boilerplate.
+const hasProjectMeta = Boolean(fm.label || fm.status || fm.repo || fm.demo);
 ---
 
 <Layout title={`${title} — Vinicius's notebook`} description={description ?? subtitle}>
@@ -84,6 +97,14 @@ const meta = explicitMeta ?? composedMeta;
 
     <div class="article-body">
       <main class="article-content">
+        {hasProjectMeta && (
+          <ProjectMeta
+            status={fm.status}
+            stack={fm.tags}
+            repo={fm.repo}
+            demo={fm.demo}
+          />
+        )}
         <slot />
 
         <nav class="article-nav" aria-label="Article navigation">

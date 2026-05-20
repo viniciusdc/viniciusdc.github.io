@@ -10,8 +10,6 @@ backHref: /projects/
 backLabel: projects
 ---
 
-import ProjectMeta from "@/components/ui/ProjectMeta.astro";
-
 {/*
   Checklist before publishing:
   [ ] Title is concrete — names the thing, not the category
@@ -19,16 +17,11 @@ import ProjectMeta from "@/components/ui/ProjectMeta.astro";
   [ ] tags are short, lowercase, useful for filtering on /projects/
   [ ] status is honest (don't say "active" if you haven't touched it in a year)
   [ ] repo / demo set if applicable; otherwise leave as ""
-  [ ] Update `meta:` if you change `label` (it's what shows above the title)
   [ ] No placeholder text remains
-*/}
 
-<ProjectMeta
-  status={frontmatter.status}
-  stack={frontmatter.tags}
-  repo={frontmatter.repo}
-  demo={frontmatter.demo}
-/>
+  ProjectMeta (status / stack / repo / demo block) is auto-rendered by
+  the layout when frontmatter carries those fields — nothing to add here.
+*/}
 
 ## What it is
 
