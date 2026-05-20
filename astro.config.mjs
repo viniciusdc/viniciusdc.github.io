@@ -23,6 +23,13 @@ function injectDefaultLayout(layoutPath, includeDirs) {
 
 export default defineConfig({
   site: 'https://viniciusdc.github.io',
+  // Stable redirects for old URLs that link in from external archives.
+  redirects: {
+    // GSoC 2020 work-product submission — was hosted at this path on the
+    // previous Jekyll site; still linked from the GSoC archive.
+    '/Work product/': '/projects/conda-forge-autotick-bot/',
+    '/Work%20product/': '/projects/conda-forge-autotick-bot/',
+  },
   integrations: [
     mdx({
       remarkPlugins: [
