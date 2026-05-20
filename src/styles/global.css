@@ -30,32 +30,32 @@
     --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-/* Always dark — dim café table at 7am, not stark espresso. */
+/* Always dark — deep navy surfaces, caramel accent. Ocean depth + warm signature. */
 :root {
     color-scheme: dark;
-    --background: #1a1612;      /* espresso, lifted */
-    --foreground: #ede0c4;      /* foam cream */
-    --card: #241d16;            /* mocha */
-    --card-foreground: #ede0c4;
-    --popover: #2c2218;
-    --popover-foreground: #ede0c4;
-    --primary: #d4a261;         /* caramel — desaturated from #d8a657 */
-    --primary-foreground: #1a1612;
-    --secondary: #241d16;
-    --secondary-foreground: #ede0c4;
-    --muted: #241d16;
-    --muted-foreground: #c8b395; /* oat milk */
+    --background: #0f111a;      /* deep navy */
+    --foreground: #d8d3c2;      /* warm parchment, not cool slate */
+    --card: #181a25;            /* elevated navy */
+    --card-foreground: #d8d3c2;
+    --popover: #1f2230;
+    --popover-foreground: #d8d3c2;
+    --primary: #d4a261;         /* caramel */
+    --primary-foreground: #0f111a;
+    --secondary: #181a25;
+    --secondary-foreground: #d8d3c2;
+    --muted: #181a25;
+    --muted-foreground: #b8a98e; /* warm muted — bumped for AAA contrast on navy */
     --accent: #d4a261;
-    --accent-foreground: #1a1612;
+    --accent-foreground: #0f111a;
     --destructive: oklch(0.704 0.191 22.216);
-    --border: rgba(212, 162, 97, 0.13);
-    --border-strong: rgba(212, 162, 97, 0.24);
-    --input: rgba(212, 162, 97, 0.13);
+    --border: rgba(212, 162, 97, 0.10);
+    --border-strong: rgba(212, 162, 97, 0.20);
+    --input: rgba(212, 162, 97, 0.10);
     --ring: #d4a261;
     --link: #d4a261;
-    --faint: #96866d;           /* faded latte */
+    --faint: #928a78;            /* warm faint — needs ≥4.5:1 on the deep navy bg */
     --accent-soft: rgba(212, 162, 97, 0.10);
-    --surface-raised: #2c2218;  /* lifted mocha */
+    --surface-raised: #1f2230;
     --radius: 0.625rem;
 }
 
@@ -67,11 +67,6 @@
         @apply font-serif;
         scroll-behavior: smooth;
         background-color: var(--background);
-        /* Slightly lifted warm pools — like lamplight on the table. */
-        background-image:
-            radial-gradient(ellipse 70% 45% at 85% -8%, rgba(212, 162, 97, 0.12), transparent),
-            radial-gradient(ellipse 50% 35% at -5% 20%, rgba(212, 162, 97, 0.05), transparent);
-        background-attachment: scroll;
     }
     body {
         @apply text-foreground;
