@@ -17,7 +17,7 @@
     "@astrojs/mdx": "^5.0.6",
     "@fontsource-variable/geist": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.1",
     "astro": "^6.4.4",
     "katex": "^0.17.0",
     "rehype-katex": "^7.0.1",
