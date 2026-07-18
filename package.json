@@ -14,11 +14,11 @@
     "check": "astro check && npm run spell"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/mdx": "^7.0.3",
     "@fontsource-variable/geist": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
     "@tailwindcss/vite": "^4.3.2",
-    "astro": "^6.4.8",
+    "astro": "^7.1.1",
     "katex": "^0.17.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
