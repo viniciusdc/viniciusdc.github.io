@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import { unified } from '@astrojs/markdown-remark';
 import tailwindcss from '@tailwindcss/vite';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -30,8 +31,10 @@ export default defineConfig({
     '/Work product/': '/projects/conda-forge-autotick-bot/',
     '/Work%20product/': '/projects/conda-forge-autotick-bot/',
   },
-  integrations: [
-    mdx({
+  // Astro 7's default `satteri` processor skips remark/rehype plugins, so
+  // opt back into the unified pipeline; MDX inherits these plugins.
+  markdown: {
+    processor: unified({
       remarkPlugins: [
         remarkMath,
         injectDefaultLayout('@/layouts/ArticleLayout.astro', [
@@ -41,7 +44,8 @@ export default defineConfig({
       ],
       rehypePlugins: [rehypeKatex],
     }),
-  ],
+  },
+  integrations: [mdx()],
   devToolbar: { enabled: false },
   vite: {
     plugins: [tailwindcss()],
