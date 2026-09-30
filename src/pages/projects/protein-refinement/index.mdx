@@ -1,0 +1,40 @@
+---
+title: Protein conformation from distances
+description: Undergraduate thesis. Recovering 3D molecular structure from a sparse set of inter-atomic distances using SDP relaxation and spectral projected gradient refinement.
+label: research · thesis · 2019–2020
+tags: [python, matlab, numpy, scipy, sdpt3]
+status: archived
+repo: https://github.com/viniciusdc/Protein-Refinement_prime
+demo: ''
+---
+
+## The problem
+
+Given a protein with N atoms and a subset of known inter-atomic distances (from NMR experiments or crystallography), find a set of 3D coordinates that is consistent with those distances. This is the Distance Geometry Problem (DGP).
+
+In practice the distance data is incomplete and noisy — not every pair of atoms has a measured distance, and measurements come with upper and lower bounds rather than exact values. The goal is a conformation where all known distance bounds are satisfied and the overall geometric stress is minimized.
+
+## Two-phase approach
+
+The solver runs in two phases. First, a semidefinite programming relaxation (SDP) via YALMIP in MATLAB computes a low-rank Gram matrix that approximately satisfies the distance constraints. This gives a convex lower bound and a good initial point.
+
+Second, the Python implementation refines that initial point using a Spectral Projected Gradient (SPG) method that minimizes a weighted stress function while projecting candidate distances back onto the feasible interval after each step. The Barzilai–Borwein spectral step replaces a fixed learning rate with a local curvature estimate, and a nonmonotone GLL line search prevents the method from stalling near saddle points.
+
+## Interesting problems
+
+- Atom reordering: the PDB file and the distance file use different atom indices — reconciling them before the solver starts.
+- Centering: coordinates need to be centered at the origin to remove translation degrees of freedom.
+- Convex relaxation quality: how good the SDP solution is as a starting point strongly affects how quickly SPG converges.
+- Handling incomplete distance data: not every protein structure had a full distance matrix; the solver needed to be robust to sparse inputs.
+
+## Results
+
+Tested against 12 PDB structures ranging from 30 to 656 atoms: 2Y2A, 2JMY, 6G4U, 6HN9, 6FS5, 2K35, 1DT4, 6HKC, 1A91, 1B4R, 2JS9, and 1SXL. SDP-initialized SPG produced MDE on the order of 10⁻⁵ to 10⁻⁶, versus 10⁻² for random initialization — and at lower total runtime for larger proteins where fewer SPG iterations were needed.
+
+1SXL (656 atoms) was recovered in about 7.7 minutes total. Backbone alignment against the PDB ground truth was visually indistinguishable.
+
+## Links
+
+- [Protein-Refinement_prime](https://github.com/viniciusdc/Protein-Refinement_prime) — the implementation
+- [protein-refinement](https://github.com/viniciusdc/protein-refinement) — the full report (Portuguese)
+- [Protein structure from interval distances](/writing/protein-structure-from-interval-distances/) — the deep-dive essay
