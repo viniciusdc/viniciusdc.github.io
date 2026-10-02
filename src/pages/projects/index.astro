@@ -9,17 +9,22 @@ interface ProjectMeta {
   description: string;
   tags: string[];
 }
-interface ProjectModule { metadata?: ProjectMeta; }
+// Accept either `frontmatter` (YAML at the top of .mdx) or `metadata` (export const).
+interface ProjectModule { metadata?: ProjectMeta; frontmatter?: ProjectMeta; }
 
 function toHref(path: string) {
   return '/projects' + path.replace(/^\.\//, '/').replace(/\/index\.(astro|mdx)$/, '/');
 }
 
-const modules = import.meta.glob<ProjectModule>('./*/index.astro', { eager: true });
+const modules = {
+  ...import.meta.glob<ProjectModule>('./*/index.astro', { eager: true }),
+  ...import.meta.glob<ProjectModule>('./*/index.mdx',   { eager: true }),
+};
 
 const projects = Object.entries(modules)
-  .filter(([, m]) => m.metadata)
-  .map(([path, m]) => ({ href: toHref(path), ...m.metadata! }));
+  .map(([path, m]) => [path, m.frontmatter ?? m.metadata] as const)
+  .filter((tuple): tuple is readonly [string, ProjectMeta] => tuple[1] != null)
+  .map(([path, meta]) => ({ href: toHref(path), ...meta }));
 ---
 
 <Layout title="Projects — Vinicius's notebook" description="Systems, tools, and platform work — written up as engineering notes rather than portfolio cards.">
