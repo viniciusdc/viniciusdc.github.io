@@ -10,8 +10,10 @@ updates:
       - "dependencies"
     # GitHub Actions ecosystem only supports `default-days` in cooldown
     # (Actions don't follow strict semver — most release single major tags).
+    # Actions run with this repo's tokens (Pages deploy), so soak them longer;
+    # they are also excluded from auto-merge in dependabot-auto-merge.yml.
     cooldown:
-      default-days: 2
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /
@@ -24,8 +26,11 @@ updates:
       - "javascript"
     # Supply-chain soak: wait N days after a release before opening a PR, so
     # registry takedowns / CVEs / follow-up patches have time to surface.
+    # Patch/minor bumps auto-merge once CI is green, so the soak is the only
+    # gate before they land; worm-style compromised publishes have typically
+    # been pulled within a day or two. Security updates bypass cooldown.
     cooldown:
-      default-days: 1
-      semver-major-days: 7
-      semver-minor-days: 3
-      semver-patch-days: 1
+      default-days: 3
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
